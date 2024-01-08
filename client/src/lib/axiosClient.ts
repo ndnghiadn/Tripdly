@@ -1,19 +1,18 @@
 import axios from "axios";
 
-const axiosClient = axios.create(
-  {
-    baseURL: process.env.API_URL || "http://localhost:9999",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }
-);
+const axiosClient = axios.create({
+  baseURL: "http://localhost:9999",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    // const accessToken = localStorage.getItem('access_token')
+    // const accessToken = document.cookie.auth; //localStorage.getItem('access_token')
     // if (accessToken) config.headers.Authorization = accessToken
     return config;
   },

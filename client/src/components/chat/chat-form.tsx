@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 
-const ChatForm = ({ roomId }) => {
+const ChatForm = ({ tripId }) => {
   useEffect(() => {
-    document.cookie = "roomId=" + roomId + "; path=/";
+    document.cookie = "tripId=" + tripId + "; path=/";
     const socket = new WebSocket("ws://localhost:9999/chat");
 
     const addMessage = (message) => {
@@ -97,16 +97,14 @@ const ChatForm = ({ roomId }) => {
 
   return (
     <>
-      <body>
-        <div className="chat-window">
-          <div id="messages"></div>
-          <div id="users"></div>
-        </div>
-        <form className="chat-box" id="form">
-          <input name="text" placeholder="Message" />
-          <button type="submit">Submit</button>
-        </form>
-      </body>
+      <div className="chat-window">
+        <div id="messages"></div>
+        <div id="users"></div>
+      </div>
+      <form className="chat-box" id="form">
+        <input name="text" placeholder="Message" />
+        <button type="submit">Submit</button>
+      </form>
     </>
   );
 };

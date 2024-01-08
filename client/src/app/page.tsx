@@ -1,8 +1,34 @@
+import Parallax from "@/components/home/parallax";
+import Reveal from "@/components/home/reveal";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Hi from home
-    </main>
-  )
+    <>
+      <header id="header">
+        <a href="#" className="logo">
+          Tripdly
+        </a>
+        <ul>
+          <li>
+            <a className="active" href="#">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Destination</a>
+          </li>
+          <li>
+            <a href="#">Contact</a>
+          </li>
+        </ul>
+      </header>
+      <div className="main-container">
+        <Parallax />
+        <Reveal />
+      </div>
+    </>
+  );
 }
