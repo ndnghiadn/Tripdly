@@ -19,10 +19,10 @@ const Parallax = () => {
       let value = window.scrollY;
 
       text.style.top = value * -0.5 + "%";
-      // bird1.style.top = value * -1.5 + "%";
-      // bird1.style.left = value * 2 + "%";
-      // bird2.style.top = value * -1.5 + "%";
-      // bird2.style.left = value * -5 + "%";
+      bird1.style.top = value * -1.5 + "%";
+      bird1.style.left = value * 2 + "%";
+      bird2.style.top = value * -1.5 + "%";
+      bird2.style.left = value * -5 + "%";
       btn.style.marginTop = value * 1.5 + "px";
       rocks.style.top = value * -0.1 + "px";
       forest.style.top = value * 0.25 + "px";
@@ -36,7 +36,6 @@ const Parallax = () => {
 
   return (
     <div>
-      <UserWidget />
       <section>
         <h2 id="text">
           <span>It's time for a new</span>

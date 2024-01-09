@@ -3,10 +3,10 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import axiosClient from "@/lib/axiosClient";
-import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/zustand";
 import { User } from "@/utils/types";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -37,15 +37,15 @@ const LoginForm = () => {
         { withCredentials: true }
       );
       setUser(response.data);
+      toast(response.message);
       router.push("/");
     } catch (error) {
       console.error(error);
-      // toast.error(error.response.data);
     }
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
@@ -144,8 +144,7 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      <Toaster position="bottom-right" />
-    </section>
+    </div>
   );
 };
 

@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/utils/shadcn";
+import { Inter as FontSans } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner"
 
-const inter = Inter({ subsets: ["latin"] });
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Tripdly",
-  description: "Friendly Trip | Meet English learners/ Free Tour Guide on your vacation!",
+  description:
+    "Friendly Trip | Meet English learners/ Free Tour Guide on your vacation!",
 };
 
 export default function RootLayout({
@@ -16,8 +22,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div>{children}</div>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        {children}
+        <Toaster />
       </body>
     </html>
   );
