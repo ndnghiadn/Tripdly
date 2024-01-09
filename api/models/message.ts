@@ -6,7 +6,7 @@ const messageSchema = new mongoose.Schema(
     tripId: { type: mongoose.Types.ObjectId, ref: "Trip" },
     content: { type: String, required: true },
   },
-  {
+  {bun
     timestamps: true,
   }
 );

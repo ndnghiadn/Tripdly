@@ -14,7 +14,7 @@ const tripRouter = new Elysia()
     },
     { schema: { title: t.String() } }
   )
-  .get("/trip", async ({ tripCtrl }) => {
-    return await tripCtrl.getAllTrips();
+  .get("/getAllLatestTrips", async ({ tripCtrl }) => {
+    return await tripCtrl.getAllLatestTrips();
   });
 export default tripRouter;

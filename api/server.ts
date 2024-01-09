@@ -3,18 +3,18 @@ import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
-import AuthController from "./controllers/authController";
 import UserController from "./controllers/userController";
 import TripController from "./controllers/tripController";
 import LocationController from "./controllers/locationController";
 import RequestController from "./controllers/requestController";
 import RatingController from "./controllers/ratingController";
-import authRouter from "./routes/authRouter";
+import NotiController from "./controllers/notiController";
 import userRouter from "./routes/userRouter";
 import tripRouter from "./routes/tripRouter";
 import locationRouter from "./routes/locationRouter";
 import requestRouter from "./routes/requestRouter";
 import ratingRouter from "./routes/ratingRouter";
+import notiRouter from "./routes/notiRouter";
 import * as mongoose from "mongoose";
 
 // connect to database
@@ -46,25 +46,24 @@ const app = new Elysia()
   .use(swagger())
 
   // =======controllers=======
-  .decorate("authCtrl", new AuthController())
   .decorate("tripCtrl", new TripController())
   .decorate("locationCtrl", new LocationController())
   .decorate("userCtrl", new UserController())
   .decorate("requestCtrl", new RequestController())
   .decorate("ratingCtrl", new RatingController())
+  .decorate("notiCtrl", new NotiController())
 
   // =======routers=======
-  .use(authRouter)
   .use(tripRouter)
   .use(locationRouter)
   .use(userRouter)
   .use(requestRouter)
   .use(ratingRouter)
+  .use(notiRouter)
 
   // =======sockets=======
   .ws("/chat", {
     open(ws: any) {
-      console.log("roomId", ws);
       console.log(
         "ne nen e",
         ws.data.cookie
