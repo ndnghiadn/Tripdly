@@ -23,3 +23,11 @@ export type Trip = {
   time: Date;
   title: string;
 };
+
+export type Noti = {
+  _id: string;
+  createdAt: Date;
+  userId: User;
+  data: string;
+  type: string;
+}

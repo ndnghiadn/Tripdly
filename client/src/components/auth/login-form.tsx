@@ -37,7 +37,7 @@ const LoginForm = () => {
         { withCredentials: true }
       );
       setUser(response.data);
-      toast(response.message);
+      toast.success(response.message);
       router.push("/");
     } catch (error) {
       console.error(error);

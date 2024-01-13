@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import axiosClient from "@/lib/axiosClient";
+import { useUserStore } from "@/lib/zustand";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -22,6 +25,7 @@ const TripCard = ({ key, trip }) => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const { current } = useUserStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -36,13 +40,21 @@ const TripCard = ({ key, trip }) => {
   };
 
   const handleAddNoti = async ({ data }) => {
+    document.cookie = "userId=" + current._id + "; path=/";
+    const socket = new WebSocket("ws://localhost:8888/notification");
     try {
       const response = await axiosClient.post("/noti", {
         userId: trip.createdBy,
         type: "request-trip",
         data,
       });
-      toast("The request's been sent to the trip's owner");
+      socket.send(
+        JSON.stringify({
+          type: "NOTI_ADD",
+          data: response.data,
+        })
+      );
+      toast.info("The request has been sent to the trip's owner");
     } catch (err) {
       console.error(err);
     }

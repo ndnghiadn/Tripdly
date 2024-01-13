@@ -2,7 +2,7 @@
 
 import { useUserStore } from "@/lib/zustand";
 import React, { useEffect } from "react";
-import UserWidget from "../auth/user-widget";
+import UserWidget from "../user-widget";
 
 const Parallax = () => {
   useEffect(() => {
