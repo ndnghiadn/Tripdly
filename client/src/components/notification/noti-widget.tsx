@@ -15,13 +15,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import axiosClient from "@/lib/axiosClient";
 import { useUserStore } from "@/lib/zustand";
-import { Noti } from "@/utils/types";
-import { useEffect, useRef, useState } from "react";
+import { Noti, Request } from "@/utils/types";
+import { useEffect, useState } from "react";
 import { AiOutlineNotification } from "react-icons/ai";
-import RequestNotiItem from "./request-item";
 import RequestList from "./request-list";
+import { toast } from "sonner";
 
 const NotiWidget = () => {
   const { current } = useUserStore();
@@ -33,9 +32,20 @@ const NotiWidget = () => {
 
     const addNoti = (noti: Noti) => {
       setNotiList((notiList) => [...notiList, noti]);
+      toast.info("A New Notification!")
     };
     const setNoti = (notiList: Noti[]) => {
       setNotiList(notiList);
+    };
+    const requestAccepted = (request: Request) => {
+      toast.info(
+        `Your request to trip ${request.tripId.title} has been accepted.`
+      );
+    };
+    const requestDenied = (request: Request) => {
+      toast.info(
+        `Your request to trip ${request.tripId.title} has been denied.`
+      );
     };
     // Listen for messages
     socket.addEventListener("open", (e) => {
@@ -54,48 +64,21 @@ const NotiWidget = () => {
         case "NOTI_SET":
           setNoti(event.data);
           break;
-        // case "USERS_ADD":
-        //   addUser(event.data);
-        //   break;
-        // case "USERS_REMOVE":
-        //   removeUser(event.data);
-        //   break;
-        // case "USERS_SET":
-        //   setUsers(event.data);
-        //   break;
+        case "ACCEPT_REQUEST":
+          requestAccepted(event.data);
+          break;
+        case "DENY_REQUEST":
+          requestDenied(event.data);
+          break;
       }
     });
-
-    // return () => {
-    //   socket.removeEventListener("message", () => {});
-    // };
   }, [current]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axiosClient.get("/noti");
-  //       setNotiList(response);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   })();
-  // }, []);
-
-  // const handlePushData = () => {
-  //   socket.send(
-  //     JSON.stringify({
-  //       type: "NOTI_ADD",
-  //       data: '333',
-  //     })
-  //   );
-  // }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <AiOutlineNotification /> ({notiList.length})
+          <AiOutlineNotification />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

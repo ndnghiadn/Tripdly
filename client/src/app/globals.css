@@ -384,8 +384,8 @@ section #text span {
 }
 .reveal .box:nth-child(3n + 3) {
   transform: translate(400px, 0) scale(0);
-} */
-/* .reveal .box.active {
+}
+.reveal .box.active {
   transform: translate(0, 0) scale(1);
 } */
 

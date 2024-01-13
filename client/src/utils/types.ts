@@ -31,3 +31,12 @@ export type Noti = {
   data: string;
   type: string;
 }
+
+export type Request = {
+  _id: string;
+  createdBy: User;
+  tripId: Trip;
+  message: string;
+  memberQuantity: number;
+  status: string;
+}

@@ -35,7 +35,7 @@ const TripCard = ({ key, trip }) => {
       });
       await handleAddNoti({ data: response.data._id });
     } catch (err) {
-      console.error(err);
+      toast.error(err.response.data.message);
     }
   };
 
@@ -54,7 +54,7 @@ const TripCard = ({ key, trip }) => {
           data: response.data,
         })
       );
-      toast.info("The request has been sent to the trip's owner");
+      toast.info("The request has been sent to the trip's owner.");
     } catch (err) {
       console.error(err);
     }
@@ -69,8 +69,8 @@ const TripCard = ({ key, trip }) => {
           <p>Created at: {trip.createdAt}</p>
           <p>Created by: {trip.createdBy}</p>
           <p>Location: </p>
-          <p>Member count/ Limit: </p>
-          <p>Time: </p>
+          <p>Member count/ Limit: {trip.memberCount}/{trip.memberLimit}</p>
+          <p>Time: {trip.time}</p>
           <p>Title: {trip.title}</p>
         </div>
       </PopoverTrigger>
