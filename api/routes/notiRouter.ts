@@ -20,7 +20,15 @@ const notiRouter = new Elysia()
       },
     }
   )
-  .get("/noti", async ({ notiCtrl }) => {
-    return await notiCtrl.getAllNotis();
+  .get("/noti", async ({ jwt, cookie, set, notiCtrl }) => {
+    const userId = await verifyToken({ jwt, cookie });
+    if (!userId) {
+      set.status = 401;
+      return { message: "Unauthorized" };
+    }
+    return await notiCtrl.getAllNotificationsByUserId({ userId });
+  })
+  .post("/removeNotificationById", async ({ set, notiCtrl, body }) => {
+    return await notiCtrl.removeNotificationById({ set, body });
   });
 export default notiRouter;

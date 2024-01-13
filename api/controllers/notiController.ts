@@ -14,7 +14,19 @@ export default class NotiController {
     }
   }
 
-  async getAllNotis() {
-    return await Noti.find();
+  async getAllNotificationsByUserId({ userId }) {
+    return await Noti.find({ userId });
+  }
+
+  async removeNotificationById({ body, set }) {
+    try {
+      const removedNoti = await Noti.findOneAndDelete({ _id: body.notiId });
+
+      set.status = 200;
+      return { message: "Removed noti successfully!", data: removedNoti };
+    } catch (error) {
+      set.status = 500;
+      return { message: "Server failed" };
+    }
   }
 }
