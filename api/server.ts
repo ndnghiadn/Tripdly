@@ -62,6 +62,10 @@ const app = new Elysia()
   .use(ratingRouter)
 
   // =======sockets=======
+  .ws('/noti', {
+    open(ws: any) {console.log("roomId", ws);}
+
+  })
   .ws("/chat", {
     open(ws: any) {
       console.log("roomId", ws);

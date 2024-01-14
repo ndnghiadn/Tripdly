@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 const ChatForm = ({ roomId }) => {
   useEffect(() => {
     document.cookie = "roomId=" + roomId + "; path=/";
-    const socket = new WebSocket("ws://localhost:9999/chat");
+    const socket = new WebSocket("ws://localhost:9999/noti");
 
     const addMessage = (message) => {
       console.log("message added", message);
