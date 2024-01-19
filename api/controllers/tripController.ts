@@ -10,7 +10,7 @@ export default class TripController {
       return { message: "Created trip successfully!", data: newTrip };
     } catch (error) {
       set.status = 500;
-      return { message: "Server failed" };
+      return { message: error };
     }
   }
 
