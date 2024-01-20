@@ -1,19 +1,19 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosClient from "@/lib/axiosClient";
 
 const UserPage = ({ _id }) =>{
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(true)
     useEffect(() => {
-        getUser()
+        getUser(_id)
       }, [])
     
-    async function getUser() {
+    async function getUser(_id) {
         try {
-          await axios.get('http://localhost:9999/user',{ _id });
-          setData(data)
-          console.log("qwe",data)
+          const response = await axiosClient.get('http://localhost:8888/user',{ _id });
+          setData(response)
+        //   console.log(data)
           setLoading(false)
         } catch (error) {
           console.error(error);
@@ -21,6 +21,7 @@ const UserPage = ({ _id }) =>{
       }
     
   return (
+    
     <div className="flex flex-col w-full h-fit bg-[#f5f5f5]">
         <div className='relative h-96 w-full flex flex-col items-center '>
             <div className='w-full h-1/3 bg-slate-600'></div>

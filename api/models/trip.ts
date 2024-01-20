@@ -6,7 +6,7 @@ const tripSchema = new mongoose.Schema(
     locationId: { type: mongoose.Types.ObjectId, ref: "Location" },
     title: { type: String, required: true },
     time: { type: Date, required: true },
-    memberLimit: { type: Number, requred: true },
+    memberLimit: { type: Number, required: true },
     memberCount: { type: Number, default: 1 },
     description: { type: String },
   },

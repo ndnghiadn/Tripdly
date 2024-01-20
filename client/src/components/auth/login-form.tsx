@@ -1,11 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import axiosClient from "@/lib/axiosClient";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/lib/zustand";
+import { User } from "@/utils/types";
 import { toast } from "sonner";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const { setUser } = useUserStore();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response: User = await axiosClient.get("/user");
+        setUser(response);
+        router.push("/");
+      } catch (err) {
+        // console.error(err);
+      }
+    })();
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -13,20 +31,21 @@ const LoginForm = () => {
       const response = await axiosClient.post(
         "/sign-in",
         {
-          username: "ndnghia0111",
-          password: "1234",
+          username: e.target["username"].value, //"ndnghia0111",
+          password: e.target["password"].value, //"1234",
         },
         { withCredentials: true }
       );
-      // document.cookie = `username=${response.data.username}; httpOnly;secure; path=/`; //expires=Thu, 18 Dec 2013 12:00:00 UTC;
-      console.log("response ne", response);
+      setUser(response.data);
+      toast.success(response.message);
+      router.push("/");
     } catch (error) {
-      toast.error(error.response.data);
+      console.error(error);
     }
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
@@ -39,7 +58,7 @@ const LoginForm = () => {
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
             alt="logo"
           />
-          Flowbite
+          Tripdly
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -125,7 +144,7 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

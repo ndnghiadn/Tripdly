@@ -14,7 +14,7 @@ export default class TripController {
     }
   }
 
-  async getAllTrips() {
+  async getAllLatestTrips() {
     return await Trip.find();
   }
 }
