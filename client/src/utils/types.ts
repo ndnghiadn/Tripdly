@@ -13,6 +13,7 @@ export type Location = {
   imageUrl: [string];
 };
 
+
 export type Trip = {
   _id: string;
   createdAt: Date;
@@ -39,4 +40,18 @@ export type Request = {
   message: string;
   memberQuantity: number;
   status: string;
+}
+
+export type TimeTrip = {
+  date: string,
+  from: string,
+  to: string
+}
+
+export type TripCreate = {
+  title: string,
+  location: string[],
+  time: TimeTrip[],
+  description: string,
+  memberLimit: Number
 }

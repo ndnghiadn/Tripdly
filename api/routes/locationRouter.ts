@@ -13,15 +13,16 @@ const locationRouter = new Elysia()
       return await locationCtrl.addLocation({ set, body, createdBy: userId });
     },
     {
-      schema: {
-        body: t.Object({
-          name: t.String(),
-        }),
-      },
+      body: t.Object({
+        name: t.String(),
+      }),
     }
   )
   .get("/location", async ({ locationCtrl }) => {
     return await locationCtrl.getAllLocations();
+  })
+  .get("/location/:name", async ({ locationCtrl,name }) => {
+    return await locationCtrl.findLocation(name);
   });
 
 export default locationRouter;
