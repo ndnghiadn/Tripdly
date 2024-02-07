@@ -4,7 +4,7 @@ import Content from "@/components/landingPage/content";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-[100dvh] bg-gradient-to-b from-yellow-200 to-green-400">
+    <div className="flex flex-col min-h-[100dvh] bg-gradient-to-br from-yellow-50 to-green-100">
       <Header />
       <Content />
       <Footer />
