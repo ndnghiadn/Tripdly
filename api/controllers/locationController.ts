@@ -24,4 +24,7 @@ export default class LocationController {
   async getAllLocations() {
     return await Location.find();
   }
+  async findLocation({name}){
+    return await Location.find({name:name});
+  }
 }

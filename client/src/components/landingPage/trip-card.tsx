@@ -70,7 +70,7 @@ const TripCard = ({ key, trip }) => {
           <p>Created by: {trip.createdBy}</p>
           <p>Location: </p>
           <p>Member count/ Limit: {trip.memberCount}/{trip.memberLimit}</p>
-          <p>Time: {trip.time}</p>
+          {/* <p>Time: {trip.time}</p> */}
           <p>Title: {trip.title}</p>
         </div>
       </PopoverTrigger>
