@@ -2,22 +2,15 @@
 import { useTripStore } from '@/lib/zustand';
 import { AutoComplete, Button, TimePicker } from 'antd';
 import { useState } from 'react';
-// const mockVal = (str) => ({
-//     return ["Monday","Tusday","Wednesday","Thurday","Friday","Startuday","Sunday"].filter(curr => curr.includes(str))
-// });
-
-const mockVal = (str) => (
-    ["Monday","Tusday","Wednesday","Thurday","Friday","Startuday","Sunday"].filter(curr => curr.toLowerCase().includes(str.toLowerCase())).map(curr=>({value: curr}))
-);
 
 const TimeTrip = ({nextStep,preStep}) => {
-    const [times,setTimes] = useState([
+    const [times,setTimes] = useState(
         {
             date: "Moday",
             from: "7AM",
             to: "8AM"
         }
-    ]);
+    );
     const setTimeStore = useTripStore((state:any)=>state.setTimeTrip)
     function handleTimeValue(){
         if(!!times){
@@ -63,16 +56,6 @@ const TimeTrip = ({nextStep,preStep}) => {
                         }}/>
                 </div>
             ))}
-                <Button
-                    style={{ display: 'flex', alignItems: "center", justifyContent:"center"}}
-                    onClick={
-                    ()=> setDateBox([...dateBox,{ date: "", time: "" }])
-                    }
-                    shape="circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{width:"1rem",height:"1rem"}}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                </Button>
             </div>
             <div className='flex gap-2 mt-6'>
                 <Button onClick={handleTimeValue}>Next</Button>

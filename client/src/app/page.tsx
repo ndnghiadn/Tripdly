@@ -1,6 +1,6 @@
-import Header from "@/components/home/header";
-import Parallax from "@/components/home/parallax";
-import Reveal from "@/components/home/reveal";
+import Header from "@/components/landingPage/header";
+import Parallax from "@/components/landingPage/parallax";
+import Reveal from "@/components/landingPage/reveal";
 
 export default function Home() {
   return (

@@ -4,13 +4,15 @@ import {Input, Button} from 'antd'
 import { useState } from 'react';
 const NameTrip = ({nextStep,preStep}) => {
     const [title,setTitle] = useState("")
-    const setTitleStore = useTripStore((state:any)=>state.setTitleTrip)
-    function handleTitleValue(){
-        if(!!title){
-            setTitleStore(title)
-            nextStep()
+    const setTitleStore = useTripStore((state:any)=>state.setTitleTrip) // set store
+    function handleTitleValue(){ 
+        if(!title){
+            setTitleStore("trip G")
         }
-        return
+        else {
+            setTitleStore(title)
+        }
+        nextStep()
     }
     return ( 
         <div style={{height:"35rem"}}>

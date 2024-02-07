@@ -55,3 +55,8 @@ export type TripCreate = {
   description: string,
   memberLimit: Number
 }
+export type SideBarItem = {
+  path: string,
+  namePath: string,
+  icon: string
+}
