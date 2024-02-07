@@ -1,15 +1,13 @@
 import Header from "@/components/landingPage/header";
-import Parallax from "@/components/landingPage/parallax";
-import Reveal from "@/components/landingPage/reveal";
+import Footer from "@/components/landingPage/footer";
+import Content from "@/components/landingPage/content";
 
 export default function Home() {
   return (
-    <>
+    <div className="flex flex-col min-h-[100dvh] bg-gradient-to-b from-yellow-200 to-green-400">
       <Header />
-      <div className="main-container">
-        <Parallax />
-        <Reveal />
-      </div>
-    </>
+      <Content />
+      <Footer />
+    </div>
   );
 }
