@@ -1,5 +1,7 @@
 "use client"
 import 'primeicons/primeicons.css';
+import NotiWidget from '../notification/noti-widget';
+import UserWidget from '../user-widget';
 
 function Header() {
   return (
@@ -10,8 +12,8 @@ function Header() {
             <span className="text-2xl text-cyan-900 font-semibold">Tripdly</span>
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
               
-              <button >Log in</button>
-              <a href="#">Sign up</a>
+              <NotiWidget />
+              <UserWidget />
             </div>
           </div>
         </div>

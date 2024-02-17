@@ -31,9 +31,7 @@ const RequestList = ({ notiList }) => {
   return (
     <>
       {requestList.map((request) => (
-        <DropdownMenuItem key={request._id}>
-          <RequestNotiItem request={request} removeItemById={removeItemById} />
-        </DropdownMenuItem>
+        <RequestNotiItem request={request} removeItemById={removeItemById} />
       ))}
     </>
   );
