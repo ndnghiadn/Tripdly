@@ -1,6 +1,7 @@
 'use client';
 import axiosClient from '@/lib/axiosClient';
 import { useTripStore } from '@/lib/zustand';
+import { Trip } from '@/utils/types';
 import { Col, InputNumber, Slider, Button } from 'antd';
 import { useState } from 'react';
 
@@ -12,16 +13,33 @@ const MemberTrip = ({preStep}) => {
             setMembersStore(members)
         }
     }
+    function convertToFormData(data){
+        const form:any = new FormData()
+        // form.append('title',data.title)
+        // form.append("description",data.description)
+        // form.append('memberLimit',data.memberLimit.toString())
+        for(let i = 0;i<data.locations.length;i++)
+            form.append('address',data.locations[i].address[i])
+        for(let i = 0;i<data.locations.length;i++)
+            for(let j = 0;j<data.locations[i].images.length;j++)
+                form.append('images',data.locations[i].images[j])
+        // form.append('time',data.time)
+        return form
+        
+    }
     const tripForm = useTripStore((state:any)=>state.tripCreated)
     async function handleCompleteForm(){
         handleMemberValue()
-        console.log(tripForm);
+        console.log("trip form : ",tripForm);
+        const tripConvert = convertToFormData(tripForm)
+        console.log(tripConvert);
         
         const res = await axiosClient.post(
             "/trip",
-            tripForm,
+            tripConvert,
             {
-                withCredentials: true
+                withCredentials: true,
+                headers: {'Content-type':'multipart/form-data'}
             }
         )
         console.log(res.data);

@@ -1,8 +1,12 @@
+'use client'
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "antd";
+import MultiStepCreateTrip from "../TripForm/MultiStepForm";
+import { useState } from "react";
 
 const Header = () => {
+  const [isOpen,setOpen] = useState(false)
     return ( 
         <header className="flex items-center h-16 border-b px-4 shrink-0 md:px-6">
             <div className="flex items-center gap-4 lg:gap-8">
@@ -17,6 +21,7 @@ const Header = () => {
                 </Button>
                 </div>
                 <div className="flex items-center space-x-4 ml-auto">
+                <MultiStepCreateTrip action={setOpen} isOpen={isOpen} />
                 <Button className="rounded-full" size="icon" variant="ghost">
                     <BellIcon className="w-4 h-4" />
                     <span className="sr-only">Notifications</span>

@@ -6,7 +6,7 @@ const locationSchema = new mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String },
     coordinates: { type: String },
-    imageUrl: [{ type: String }],
+    imageUrls: [{ type: String, required: true }],
   },
   {
     timestamps: true,

@@ -15,6 +15,7 @@ import locationRouter from "./routes/locationRouter";
 import requestRouter from "./routes/requestRouter";
 import ratingRouter from "./routes/ratingRouter";
 import notiRouter from "./routes/notiRouter";
+import uploadRouter from './routes/uploadRoter'
 import * as mongoose from "mongoose";
 import notiSocket from "./sockets/notification";
 import chatSocket from "./sockets/chat";
@@ -60,6 +61,7 @@ const app = new Elysia()
   .use(requestRouter)
   .use(ratingRouter)
   .use(notiRouter)
+  .use(uploadRouter)
 
   // =======sockets=======
   .use(notiSocket)
