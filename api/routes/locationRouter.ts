@@ -3,7 +3,7 @@ import verifyToken from "../middleware/verifyToken.ts";
 
 const locationRouter = new Elysia()
   .post(
-    "/location",
+    "/locations",
     async ({ jwt, cookie, set, body, locationCtrl }) => {
       const userId = await verifyToken({ jwt, cookie });
       if (!userId) {
@@ -15,14 +15,24 @@ const locationRouter = new Elysia()
     {
       body: t.Object({
         name: t.String(),
+        images: t.Files()
       }),
     }
   )
-  .get("/location", async ({ locationCtrl }) => {
+  // .get("/location", async ({ locationCtrl }) => {
+  //   return await locationCtrl.getAllLocations();
+  // })
+  .get("/locations", async ({ locationCtrl,name, query }) => {
+    console.log(query);
+    
+    if(query["address"])
+      return await locationCtrl.findLocation(query);
     return await locationCtrl.getAllLocations();
-  })
-  .get("/location/:name", async ({ locationCtrl,name }) => {
-    return await locationCtrl.findLocation(name);
+  },
+  {
+    query: t.Object({
+        address: t.Optional(t.String())
+    })
   });
 
 export default locationRouter;

@@ -7,7 +7,7 @@ export default class TripController {
       await newTrip.save();
 
       set.status = 200;
-      return { message: "Created trip successfully!", data: newTrip };
+      return { message: "Created trip successfully!", data: "" };
     } catch (error) {
       set.status = 500;
       return { message: error };

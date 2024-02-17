@@ -5,24 +5,30 @@ export type User = {
 };
 
 export type Location = {
-  _id: string;
-  createdBy: User;
+  _id?: string;
+  createdBy?: User;
   name: string;
-  description: string;
-  coordinates: string;
-  imageUrl: [string];
+  description?: string;
+  coordinates?: string;
+  images: [File];
 };
 
+export type TimeTrip = {
+  date: string,
+  from: string,
+  to: string
+}
 
 export type Trip = {
-  _id: string;
-  createdAt: Date;
-  createdBy: User;
-  location: Location;
-  memberCount: number;
+  _id?: string;
+  createdAt?: Date;
+  createdBy?: User;
+  locations: Location[];
+  memberCount?: number;
   memberLimit: number;
-  time: Date;
+  time: TimeTrip;
   title: string;
+  description: string
 };
 
 export type Noti = {
@@ -42,19 +48,6 @@ export type Request = {
   status: string;
 }
 
-export type TimeTrip = {
-  date: string,
-  from: string,
-  to: string
-}
-
-export type TripCreate = {
-  title: string,
-  location: string[],
-  time: TimeTrip[],
-  description: string,
-  memberLimit: Number
-}
 export type SideBarItem = {
   path: string,
   namePath: string,
