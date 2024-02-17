@@ -4,91 +4,69 @@ import MessageBox from "./MessageBox";
 import MessageHeader from "./MessageHeader";
 import MessageTool from "./MessageTool";
 import InforTrip from "./InforTrip";
-// import InforExtraTrip from "./InforExtraTrip";
 import UserInfo from "./UserInfor";
 import Block from "./Block";
 import { BlockUI } from 'primereact/blockui';
-// import SideBar from "./SideBar";
-//** UI component */
-// import { useAuthStore } from "../store/auth";
 
-const ChatForm = ({ tripId }) => {
+const ChatForm = ({ tripID }) => {
+  
+  const socketRef = useRef(null);
+
   const isLogin = true;
   const [isTrip,setisTrip] = useState(true)
   const dummy = useRef<HTMLDivElement>(null)
 
   const [message, setMessage] = useState("");
 
-  const onSendMessage = () => {
-      event.preventDefault();
+  const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
+  const inputRef = useRef(null);
+
+  const handleButtonClick = async () => {
+    try {      
       // Send the message text
-      socket.send(
+      socketRef.current.send(
         JSON.stringify({
           text: message,
         })
       );
-
-      // Clear the input
-      setMessage("");
-      console.log(messages);
+      
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  //Start a connection
-  document.cookie = "tripId=" + tripId + "; path=/";
-  const socket = new WebSocket("ws://localhost:8888/chat");
-
-  const users = [];
-  const messages = [];
 
   const addMessage = (message) => {
     console.log("message added", message);
-    // Create an element for message
-    const el = document.createElement("h3");
-
-    // Set text of element to be message
-    el.appendChild(
-      document.createTextNode(message.username + ": " + message.text)
-    );
-
-    // Scroll to bottom of messages element
-    const messagesEl = document.getElementById("messages");
-    messagesEl.appendChild(el);
-    messagesEl.scrollTo(0, messagesEl.scrollHeight);
-  };
-
-  const setMessages = (messages) => {
-    // Clear messages
-    document.getElementById("messages").innerHTML = "";
-    // Loop through and add each message
-    messages.forEach((message) => addMessage(message));
+    messages.push(message);
   };
 
   const addUser = (username) => {
-    // Create an element for username
-    const el = document.createElement("h4");
-
-    // Set id of element for easy remove
-    el.setAttribute("id", username);
-
-    el.appendChild(document.createTextNode(username));
-    document.getElementById("users").appendChild(el);
+    console.log("user added", username);
+    users.push(username);
   };
 
   const removeUser = (username) => {
-    document.getElementById(username).outerHTML = "";
+    console.log("user removed", username);
+    setUsers((prevUsers) => prevUsers.filter(user => user !== username));
   };
 
-  const setUsers = (usernames) => {
-    // Clear usernames
-    document.getElementById("users").innerHTML = "";
-    // Loop through and add each username
-    usernames.forEach((username) => addUser(username));
-  };
 
 
   useEffect(() => {
+
+    if (!socketRef.current) {
+
+      //Start a connection
+      document.cookie = "tripId=" + tripID + "; path=/";
+        socketRef.current = new WebSocket('ws://localhost:8888/chat');
+
+    }
+
+
     // Listen for messages
-    socket.addEventListener("message", (e) => {
+    socketRef.current.addEventListener("message", (e) => {
       // Data sent will be a string so parse into an object
       const event = JSON.parse(e.data);
       console.log("event message", event);
@@ -96,6 +74,7 @@ const ChatForm = ({ tripId }) => {
       // Server sets a type for each message
       switch (event.type) {
         case "MESSAGES_ADD":
+          console.log("message added",event.data);
           addMessage(event.data);
           break;
         case "MESSAGES_SET":
@@ -108,27 +87,11 @@ const ChatForm = ({ tripId }) => {
           removeUser(event.data);
           break;
         case "USERS_SET":
+          console.log(event.data);
           setUsers(event.data);
           break;
       }
     });
-
-    // document.getElementById("form").addEventListener("submit", (event) => {
-    //   // Prevent from submitting page
-    //   event.preventDefault();
-
-    //   const el = event.target.getElementsByTagName("input")[0];
-
-    //   // Send the message text
-    //   socket.send(
-    //     JSON.stringify({
-    //       text: el.value,
-    //     })
-    //   );
-
-    //   // Clear the input
-    //   el.value = "";
-    // });
   }, []);
   return (
     <>
@@ -146,7 +109,7 @@ const ChatForm = ({ tripId }) => {
               <MessageBox />
             </div>
             <div className="flex-grow-0">
-              <MessageTool message={message} setMessage={setMessage} onSendMessage={onSendMessage}/>
+              <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>
             </div>
           </div>
         : 
@@ -159,7 +122,7 @@ const ChatForm = ({ tripId }) => {
                 <MessageBox />
               </div>
               <div className="flex-grow-0">
-                <MessageTool message={message} setMessage={setMessage} onSendMessage={onSendMessage}/>
+                <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>
               </div>
             </div>
           </BlockUI>
