@@ -2,8 +2,11 @@
 import 'primeicons/primeicons.css';
 import NotiWidget from '../notification/noti-widget';
 import UserWidget from '../user-widget';
+import MultiStepCreateTrip from '../TripForm/MultiStepForm';
+import { useState } from 'react';
 
 function Header() {
+  const [isCreateTrip,setIsCreateTrip] = useState(false)
   return (
     <> 
       <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30">
@@ -11,7 +14,7 @@ function Header() {
           <div className="flex items-center justify-between h-16">
             <span className="text-2xl text-cyan-900 font-semibold">Tripdly</span>
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
-              
+              <MultiStepCreateTrip/>
               <NotiWidget />
               <UserWidget />
             </div>

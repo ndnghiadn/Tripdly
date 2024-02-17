@@ -5,6 +5,8 @@ const locationRouter = new Elysia()
   .post(
     "/locations",
     async ({ jwt, cookie, set, body, locationCtrl }) => {
+      console.log(body);
+      
       const userId = await verifyToken({ jwt, cookie });
       if (!userId) {
         set.status = 401;
