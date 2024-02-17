@@ -83,7 +83,7 @@ const LocationTrip = ({nextStep,preStep}) => {
     }
     async function handleSuggestLocation(value:string){
         let temp:{value:string}[] = []
-        const result:any = await axiosClient(`/location?address=${value}`,{withCredentials:true})
+        const result:any = await axiosClient(`/locations?address=${value}`,{withCredentials:true})
         if(result?.length) 
             temp = result.map(curr=>({"value":curr.name})) 
         setSuggests(temp)
