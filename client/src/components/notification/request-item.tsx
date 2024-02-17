@@ -50,7 +50,7 @@ const RequestNotiItem = ({ request, removeItemById }) => {
   };
 
   return (
-    <div className="mb-4 grid grid-cols-[50px_1fr] items-start pb-4 last:mb-0 last:pb-0 transition-all duration-500 ease-in-out transform hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700">
+    <div className="rounded-xl p-4 mb-4 grid grid-cols-[50px_1fr] items-start pb-4 last:mb-0 last:pb-0 transition-all duration-500 ease-in-out transform hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700">
       <Avatar className="w-10 h-10">
         <AvatarImage alt="@traveller" src="/placeholder-user.jpg" />
         <AvatarFallback>TR</AvatarFallback>
@@ -65,13 +65,13 @@ const RequestNotiItem = ({ request, removeItemById }) => {
             onClick={handleAcceptRequest}
             className="text-green-500 border-green-500 hover:bg-green-500 hover:text-white transition-colors duration-200"
           >
-            Yes
+            Accept
           </Button>
           <Button
             onClick={handleDenyRequest}
             className="text-red-500 border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200"
           >
-            No
+            Deny
           </Button>
         </div>
         <p className="text-sm text-gray-500 dark:text-gray-400">3 hours ago</p>

@@ -14,7 +14,7 @@ const Header = () => {
         href="#"
       >
         <MountainIcon className="h-6 w-6" />
-        <span className="sr-only">Acme Inc</span>
+        <span className="sr-only">Tripdly</span>
       </Link>
       <Button
         onClick={() => router.push("/app")}
