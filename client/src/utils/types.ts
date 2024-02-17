@@ -60,3 +60,14 @@ export type SideBarItem = {
   namePath: string,
   icon: string
 }
+
+export type MessageType = {
+  ava : string,
+  name : string,
+  time : string,
+  type : string,
+  content : string,
+  reply : string | null,
+  role : string,
+  site : string
+}

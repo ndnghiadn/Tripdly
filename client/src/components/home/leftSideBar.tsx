@@ -18,6 +18,14 @@ const LeftSideBar = () => {
               <BookmarkIcon className="w-4 h-4" />
               Bookmarks
             </Link>
+            <Link
+              className="flex items-center gap-2 p-2 rounded-md text-gray-500 font-medium dark:text-gray-400"
+              href="/app/chat/123"
+            >
+              <BookmarkIcon className="w-4 h-4" />
+              Chat
+            </Link>
+            
         </div>
         </div>
      );
