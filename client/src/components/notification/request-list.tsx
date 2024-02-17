@@ -15,9 +15,10 @@ const RequestList = ({ notiList }) => {
         const response = await axiosClient.post("/getAllRequestsByIdList", {
           idList: notiList.map((noti) => noti.data),
         });
-        setRequestList(
-          response.data.filter((request) => request.status === "Waiting")
-        );
+        setRequestList(response.data);
+        // setRequestList(
+        //   response.data.filter((request) => request.status === "Waiting")
+        // );
       } catch (err) {
         console.error(err);
       }

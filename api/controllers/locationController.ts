@@ -6,8 +6,9 @@ import { initializeApp } from "firebase/app";
 initializeApp(firebaseConfig);
 const storage = getStorage();
 export default class LocationController {
-  async addLocation({ set, body, createdBy, images }) {
+  async addLocation({ set, body, createdBy }) {
     try {
+      // check unique name
       // check unique name
       const { name } = body;
 
@@ -17,6 +18,7 @@ export default class LocationController {
         return { message: "Location's name is unique!" };
       }
       // upload image to firebase
+      const {images} = body
       const imageUrls = []
 
       // only one img
