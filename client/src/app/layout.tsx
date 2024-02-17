@@ -28,6 +28,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        {/* <Header/> */}
         {children}
         <Toaster richColors />
       </body>
