@@ -1,10 +1,12 @@
-"use client";
-import "primeicons/primeicons.css";
-import Link from "../../../node_modules/next/link";
-import NotiWidget from "../notification/noti-widget";
-import UserWidget from "../user-widget";
 
+"use client"
+import 'primeicons/primeicons.css';
+import NotiWidget from '../notification/noti-widget';
+import UserWidget from '../user-widget';
+import MultiStepCreateTrip from '../TripForm/MultiStepForm';
+import { useState } from 'react';
 function Header() {
+  const [isCreateTrip,setIsCreateTrip] = useState(false)
   return (
     <>
       <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30">
@@ -18,6 +20,8 @@ function Header() {
               <span className="sr-only">Tripdly</span>
             </Link>
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
+
+              <MultiStepCreateTrip/>
               <NotiWidget />
               <UserWidget />
             </div>
