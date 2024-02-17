@@ -21,6 +21,8 @@ const ChatForm = ({ tripID }) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const inputRef = useRef(null);
+  console.log(messages);
+  
 
   const handleButtonClick = async () => {
     try {      
@@ -77,7 +79,8 @@ const ChatForm = ({ tripID }) => {
           console.log("message added",event.data);
           addMessage(event.data);
           break;
-        case "MESSAGES_SET":
+        case "MESSAGES_SET":          
+          console.log("message set",event.data);
           setMessages(event.data);
           break;
         case "USERS_ADD":
@@ -87,6 +90,7 @@ const ChatForm = ({ tripID }) => {
           removeUser(event.data);
           break;
         case "USERS_SET":
+          console.log("user set",event.data);
           console.log(event.data);
           setUsers(event.data);
           break;
