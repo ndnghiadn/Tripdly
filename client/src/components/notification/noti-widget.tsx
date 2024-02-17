@@ -72,33 +72,41 @@ const NotiWidget = () => {
   }, [current]);
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className="rounded-full relative" size="icon" variant="outline">
-          <BellIcon className="w-4 h-4" />
-          <span className="absolute top-0 right-0 flex h-4 w-4 rounded-full bg-red-500 text-white text-xs justify-center items-center">
-            {notiList.length}
-          </span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="p-0 w-80">
-        <Card className="shadow-none border-0">
-          <CardHeader className="border-b">
-            <CardTitle>Notifications</CardTitle>
-            <CardDescription>
-              You have {notiList.length} unread messages.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-6">
-            <RequestList
-              notiList={notiList.map(
-                (noti) => noti.type == "request-trip" && noti
-              )}
-            />
-          </CardContent>
-        </Card>
-      </PopoverContent>
-    </Popover>
+    <>
+      {current && current.username && (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              className="rounded-full relative"
+              size="icon"
+              variant="outline"
+            >
+              <BellIcon className="w-4 h-4" />
+              <span className="absolute top-0 right-0 flex h-4 w-4 rounded-full bg-red-500 text-white text-xs justify-center items-center">
+                {notiList.length}
+              </span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="p-0 w-80">
+            <Card className="max-h-80 overflow-y-auto shadow-none border-0">
+              <CardHeader className="border-b">
+                <CardTitle>Notifications</CardTitle>
+                <CardDescription>
+                  You have {notiList.length} unread messages.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <RequestList
+                  notiList={notiList.map(
+                    (noti) => noti.type == "request-trip" && noti
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </PopoverContent>
+        </Popover>
+      )}
+    </>
     // <DropdownMenu>
     //   <DropdownMenuTrigger asChild>
     //     <Button variant="outline">

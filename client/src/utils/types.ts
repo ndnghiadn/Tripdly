@@ -42,6 +42,7 @@ export type Noti = {
 export type Request = {
   _id: string;
   createdBy: User;
+  createdAt: string;
   tripId: Trip;
   message: string;
   memberQuantity: number;
