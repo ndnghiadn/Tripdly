@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "antd";
 import {BsEmojiSmile} from "react-icons/bs"
 import {GrAttachment} from "react-icons/gr"
+import { log } from "console";
 
 const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
     const [visibleEmoji, setVisibleEmoji] = useState(false);
@@ -20,7 +21,9 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
     
         // Cleanup event listener when component unmounts
         return () => {
-            inputRef.current.removeEventListener('keypress', handleKeyPress);
+            if(inputRef.current){
+                inputRef.current.removeEventListener('keypress', handleKeyPress);
+            }
         };
     },[])
     return ( 
@@ -56,20 +59,7 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
             placeholder="Type a message ..."
           />
           <Button 
-            onClick={()=>{
-                let dataMessage = {
-                    // ava: "/src/assets/cena.jpg",
-                    name: "Guest A",
-                    time: "12:12AM",
-                    type: "text",
-                    content: "Hi host",
-                    reply: null,
-                    role: "guest",
-                    site: "me"
-                };
-                // dataMessage.content = message
-                handleButtonClick()
-            }} />
+            onClick={()=>{handleButtonClick()}} />
         </div>
      );
 }
