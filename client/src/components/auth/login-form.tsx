@@ -38,7 +38,7 @@ const LoginForm = () => {
       );
       setUser(response.data);
       toast.success(response.message);
-      router.push("/");
+      router.push("/app");
     } catch (error) {
       console.error(error);
     }
