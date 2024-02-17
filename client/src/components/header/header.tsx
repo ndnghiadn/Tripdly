@@ -10,7 +10,7 @@ function Header() {
             <span className="text-2xl text-cyan-900 font-semibold">Tripdly</span>
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
               
-              <button onClick={()=>setLogin(!isLogin,"")}>Log in</button>
+              <button >Log in</button>
               <a href="#">Sign up</a>
             </div>
           </div>

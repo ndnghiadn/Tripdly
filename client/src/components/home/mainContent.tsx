@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button"
+import RightSideBar from "./rightSideBar";
 const MainContent = () => {
     return ( 
-        <div className="space-y-4 p-4 md:p-6">
+      <div className="flex-1 grid md:grid-cols-[1fr,300px]">
+      
+      <div className="space-y-4 p-4 md:p-6">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               <img
@@ -128,6 +131,8 @@ const MainContent = () => {
             </div>
           </div>
         </div>
+      <RightSideBar/>
+      </div>
      );
 }
  
