@@ -133,7 +133,7 @@ const ChatForm = ({ tripId }) => {
   return (
     <>
       
-      <div className="flex sm:px-2 h-88/100 w-full">
+      <div className="flex sm:px-2 h-full w-full">
       {/* <div className="bg-white h-full w-1/12">
         <SideBar/>
       </div> */}
