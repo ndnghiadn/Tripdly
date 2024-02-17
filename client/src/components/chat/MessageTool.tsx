@@ -1,12 +1,28 @@
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
 import {BsEmojiSmile} from "react-icons/bs"
 import {GrAttachment} from "react-icons/gr"
 
-const MessageTool = ({message, setMessage, onSendMessage}) => {
+const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
     const [visibleEmoji, setVisibleEmoji] = useState(false);
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            // Check if the Enter key is pressed
+            if (event.key === 'Enter') {
+            handleButtonClick();
+            }
+        };
+    
+        // Attach the keypress event listener to the input element using useRef
+        inputRef.current.addEventListener('keypress', handleKeyPress);
+    
+        // Cleanup event listener when component unmounts
+        return () => {
+            inputRef.current.removeEventListener('keypress', handleKeyPress);
+        };
+    },[])
     return ( 
         <div className="flex p-4 gap-4 bg-white items-center border-x border-slate-100">
             <div>
@@ -31,6 +47,7 @@ const MessageTool = ({message, setMessage, onSendMessage}) => {
           </div>
           <GrAttachment className="h-6 w-6"/>
           <input
+            ref={inputRef}
             type="text"
             id="first_name"
             value={message}
@@ -49,9 +66,9 @@ const MessageTool = ({message, setMessage, onSendMessage}) => {
                     reply: null,
                     role: "guest",
                     site: "me"
-                }
+                };
                 // dataMessage.content = message
-                onSendMessage
+                handleButtonClick()
             }} />
         </div>
      );
