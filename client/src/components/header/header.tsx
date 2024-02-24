@@ -5,6 +5,7 @@ import NotiWidget from '../notification/noti-widget';
 import UserWidget from '../user-widget';
 import MultiStepCreateTrip from '../TripForm/MultiStepForm';
 import { useState } from 'react';
+import Link from 'next/link';
 function Header() {
   const [isCreateTrip,setIsCreateTrip] = useState(false)
   return (

@@ -1,5 +1,9 @@
+import { Message } from './../models/message';
+import { Trip } from '../models/trip';
+import { User } from '../models/user';
+import { log } from 'console';
 import Elysia from "elysia";
-import { Noti } from "../models/noti";
+import { decode } from 'punycode';
 
 const messages = [];
 let users = [];
@@ -9,9 +13,7 @@ const chatSocket = new Elysia().ws("/chat", {
       console.log(
         "ne nen e",
         ws.data.cookie
-        // ws.data.request.cookie.roomId
       );
-      // console.log("cookie token", ws.data.cookie);
       // Store username
       users.push("abc");
 
@@ -27,17 +29,21 @@ const chatSocket = new Elysia().ws("/chat", {
       ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
     },
     message(ws: any, data: { text: string }) {
+      console.log(data.text);
+      
       // Data sent is a string, parse to object
       messages.push(data.text);
 
-      // Send message to all clients subscribed to the chat channel with new message
+      // Send message to all clients (exclude the client who sent the message) subscribed to the chat channel with new message
       ws.publish(
         "chat",
         JSON.stringify({
           type: "MESSAGES_ADD",
           data: { username: "abc", text: data.text },
         })
-      );
+      );      
+      ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
+      ws.publish("chat",JSON.stringify({ type: "MESSAGES_SET", data: messages }));
     },
     close(ws: any) {
       users = users.filter((username) => username !== "abc");

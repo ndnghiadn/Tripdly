@@ -4,7 +4,7 @@ import pic1 from "../assets/cary.jpg"
 const TextType = ({params}:{params:MessageType}) => {
     return ( 
         <>
-        { params.site === "me" 
+        { (params.site === "me" && params.content !== "")
             ? <div className="flex mb-3 mr-10">
                 <div className="flex-1"></div>
                 <div className="flex-1 flex justify-end gap-2">
