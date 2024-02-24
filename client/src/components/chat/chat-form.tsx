@@ -1,4 +1,5 @@
 "use client";
+import { useUserStore } from "@/lib/zustand";
 import React, { useEffect, useRef, useState } from "react";
 import MessageBox from "./MessageBox";
 import MessageHeader from "./MessageHeader";
@@ -8,7 +9,8 @@ import UserInfo from "./UserInfor";
 import Block from "./Block";
 import { BlockUI } from 'primereact/blockui';
 
-const ChatForm = ({ tripID }) => {
+const ChatForm = ({ tripId }) => {
+  const { current } = useUserStore();
   
   const socketRef = useRef(null);
 
@@ -21,7 +23,7 @@ const ChatForm = ({ tripID }) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const inputRef = useRef(null);
-  console.log(messages);
+  // console.log(messages);
   
 
   const handleButtonClick = async () => {
@@ -40,29 +42,28 @@ const ChatForm = ({ tripID }) => {
 
 
   const addMessage = (message) => {
-    console.log("message added", message);
+    // console.log("message added", message);
     messages.push(message);
   };
 
   const addUser = (username) => {
-    console.log("user added", username);
+    // console.log("user added", username);
     users.push(username);
   };
 
   const removeUser = (username) => {
-    console.log("user removed", username);
+    // console.log("user removed", username);
     setUsers((prevUsers) => prevUsers.filter(user => user !== username));
   };
 
 
 
   useEffect(() => {
-
     if (!socketRef.current) {
-
       //Start a connection
-      document.cookie = "tripId=" + tripID + "; path=/";
-        socketRef.current = new WebSocket('ws://localhost:8888/chat');
+      document.cookie = "tripId=" + tripId + "; path=/";
+      document.cookie = "userId=" + current._id + "; path=/";
+      socketRef.current = new WebSocket('ws://localhost:8888/chat');
 
     }
 
@@ -76,7 +77,6 @@ const ChatForm = ({ tripID }) => {
       // Server sets a type for each message
       switch (event.type) {
         case "MESSAGES_ADD":
-          console.log("message added",event.data);
           addMessage(event.data);
           break;
         case "MESSAGES_SET":          
@@ -91,7 +91,6 @@ const ChatForm = ({ tripID }) => {
           break;
         case "USERS_SET":
           console.log("user set",event.data);
-          console.log(event.data);
           setUsers(event.data);
           break;
       }
@@ -104,13 +103,13 @@ const ChatForm = ({ tripID }) => {
       {/* <div className="bg-white h-full w-1/12">
         <SideBar/>
       </div> */}
-      { isLogin ?
+      { current ?
           <div className="bg-[#F6F8FA] h-full w-11/12 sm:w-4/5 sm:mr-3 flex flex-col rounded-xl">    
              <div className="flex-grow-0">
               <MessageHeader/>
             </div>
             <div className="flex-1 overflow-auto no-scrollbar" ref={dummy}>
-              <MessageBox />
+              <MessageBox messages={messages}/>
             </div>
             <div className="flex-grow-0">
               <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>
@@ -123,7 +122,7 @@ const ChatForm = ({ tripID }) => {
                 <MessageHeader/>
               </div>
               <div className="flex-1 overflow-auto no-scrollbar" ref={dummy}>
-                <MessageBox />
+                <MessageBox messages={messages}/>
               </div>
               <div className="flex-grow-0">
                 <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>

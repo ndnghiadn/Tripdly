@@ -4,9 +4,9 @@ const messageSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Types.ObjectId, ref: "User" },
     tripId: { type: mongoose.Types.ObjectId, ref: "Trip" },
-    content: { type: String, required: true },
+    content: { type: String, required: true },    
   },
-  {bun
+  {
     timestamps: true,
   }
 );

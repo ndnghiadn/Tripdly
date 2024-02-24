@@ -2,5 +2,5 @@
 import ChatForm from "@/components/chat/chat-form";
 
 export default function ChatRoom({ params }) {
-  return <ChatForm tripID={params.tripID}/>;
+  return <ChatForm tripId={params.tripId}/>;
 }
