@@ -4,8 +4,8 @@ const tripSchema = new mongoose.Schema(
   {
     createdBy: { type: mongoose.Types.ObjectId, ref: "User" },
     locations: [{
-      address: {type: String},
-      images: [{ type: String }]
+      name: {type: String},
+      imageUrls: [{ type: String }]
     }],
     title: { type: String, required: true },
     time: { 
