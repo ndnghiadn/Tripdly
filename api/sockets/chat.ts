@@ -1,3 +1,5 @@
+import { data } from '@emoji-mart/data';
+import { cookie } from '@elysiajs/cookie';
 import { Message } from './../models/message';
 import { Trip } from '../models/trip';
 import { User } from '../models/user';
@@ -8,12 +10,15 @@ import { decode } from 'punycode';
 const messages = [];
 let users = [];
 
-const chatSocket = new Elysia().ws("/chat", {
-    open(ws: any) {
+const chatSocket = new Elysia().ws("/chat",  {
+    async open(ws: any, jwt: any) {
       console.log(
         "ne nen e",
         ws.data.cookie
       );
+      const decoded = await ws.data.jwt.verify(ws.data.cookie.auth)
+      console.log("decode",decoded.userId);
+      
       // Store username
       users.push("abc");
 
