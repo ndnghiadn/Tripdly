@@ -59,10 +59,11 @@ const ChatForm = ({ tripId }) => {
 
 
   useEffect(() => {
+    document.cookie = "tripId=" + tripId + "; path=/";
+    document.cookie = "userId=" + current._id + "; path=/";
+
     if (!socketRef.current) {
       //Start a connection
-      document.cookie = "tripId=" + tripId + "; path=/";
-      document.cookie = "userId=" + current._id + "; path=/";
       socketRef.current = new WebSocket('ws://localhost:8888/chat');
 
     }
@@ -95,7 +96,7 @@ const ChatForm = ({ tripId }) => {
           break;
       }
     });
-  }, []);
+  }, [tripId]);
   return (
     <>
       

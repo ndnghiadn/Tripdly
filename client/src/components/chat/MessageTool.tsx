@@ -12,7 +12,7 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
         const handleKeyPress = (event) => {
             // Check if the Enter key is pressed
             if (event.key === 'Enter') {
-            handleButtonClick();
+                handleButtonClick();
             }
         };
     
