@@ -17,8 +17,10 @@ const tripRouter = new Elysia()
       schema: {
         body: t.Object({
             title: t.Optional(t.String()),
-            address: t.Array(t.String()),
-            images: t.Array(t.String()),
+            locations: t.Array(t.Object({
+              name: t.String(),
+              imageUrls: t.Array(t.String())
+            })),
             time: t.Object({
                 date: t.String(),
                 from: t.String(),
@@ -30,7 +32,7 @@ const tripRouter = new Elysia()
       }
     }
   )
-  .get("/getAllLatestTrips", async ({ tripCtrl }) => {
+  .get("/trips", async ({ tripCtrl }) => {
     return await tripCtrl.getAllLatestTrips();
   });
 export default tripRouter;

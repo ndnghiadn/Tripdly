@@ -1,10 +1,27 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import RightSideBar from "./rightSideBar";
+import { use, useEffect, useState } from "react";
+import axiosClient from "@/lib/axiosClient";
 const MainContent = () => {
+  const [trip,setTrip] = useState([])
+  useEffect(()=>{
+    const fetchData = async () => {
+      const res = await axiosClient.get("/trips",{
+        withCredentials: true
+      })
+      setTrip(res)
+    }
+    fetchData()
+  },[])
     return ( 
       <div className="flex-1 grid md:grid-cols-[1fr,300px]">
       
       <div className="space-y-4 p-4 md:p-6">
+        <div>
+          <h1>All trip</h1>
+          {trip && trip.map(curr => (<h1 key={curr.title}>Name trip: {curr.title}</h1>))}
+        </div>
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               <img
@@ -130,7 +147,7 @@ const MainContent = () => {
               </div>
             </div>
           </div>
-        </div>
+      </div>
       <RightSideBar/>
       </div>
      );

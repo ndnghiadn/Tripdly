@@ -3,86 +3,79 @@
 import { useEffect, useState } from "react";
 import {AutoComplete, TimePicker, Button, Input} from 'antd'
 import { useTripStore } from "@/lib/zustand"
-import Search from "antd/es/input/Search";
 import axiosClient from "@/lib/axiosClient";
 
 export interface locationType {
-    address: string,
-    images: string[]
+    name: string,
+    imageUrls: string[]
 }
 export interface validationLocationType {
-    isValidationAddress: boolean,
-    isValidationImg: boolean
+    isValidationAddress: boolean
 }
-
 const LocationTrip = ({nextStep,preStep}) => {
     const [locations, setLocations] = useState<locationType[]>([{
-        address: "",
-        images: []
+        name:"",
+        imageUrls: []
     }])
     const [suggests,setSuggests] = useState<{ value: string }[]>([]);
+    const [tempLocation,setTempLocation] = useState<locationType>()
     const [validationLocations,setValidationLocations] = useState<validationLocationType[]>([{
         isValidationAddress: true,
-        isValidationImg: true
     }])
     const setLocationStore = useTripStore((state)=>state.setLocationTrip)
     function handleVerifyLocations(){
-        console.log(locations);
+        // console.log(locations);
         const validation = isValidationLocations()
+        console.log(validation);
         
         setValidationLocations(validation)
-        const validAll = validation.reduce((res,curr)=>res && curr.isValidationAddress && curr.isValidationImg,true)
-        
+        const validAll = validation.reduce((res,curr)=>res && curr.isValidationAddress,true)
         if(validAll){
             setLocationStore(locations)
             nextStep()
         }
         return
     }
-    function setValidationDefault(){
-        const temp = validationLocations.map(curr=>({
-            isValidationAddress: true,
-            isValidationImg: true
-        }))
-        setValidationLocations(temp)
-        console.log(validationLocations);
+    // function setValidationDefault(){
+    //     const temp = validationLocations.map(curr=>({
+    //         isValidationAddress: true,
+    //         isValidationImg: true
+    //     }))
+    //     setValidationLocations(temp)
+    //     console.log(validationLocations);
         
-    }
+    // }
     function isValidationLocations(){
         return locations.map(curr=>{
             let isValidationAddress = false
-            let isValidationImg = false
-            if(!!curr.address)
+            if(!!curr.name)
                 isValidationAddress = true
-            if(curr.images.length)
-                isValidationImg = true
-            return {isValidationAddress:isValidationAddress,isValidationImg:isValidationImg}
+            return {isValidationAddress:isValidationAddress}
         })
     }
     async function handleChangeLocation(value:string,indexLocation:number){
-        await handleSuggestLocation(value)
         const tempLocation = [...locations]
-        tempLocation[indexLocation].address = value
+        const result:any = await axiosClient(`/locations?address=${value}`,{withCredentials:true})
+        tempLocation[indexLocation] = result[0]
         setLocations(tempLocation)
+        // const result:any = await axiosClient(`/locations?address=${value}`,{withCredentials:true})
     }
-    function handleAddLocationImg(e, indexLocationBox:number) {
-        const tempLocation = [...locations]
-        tempLocation[indexLocationBox].images.push(e.target.files[0]);
-        setLocations(tempLocation)
-    }
-    function handleRemoveLocationImg(indexLocationBox:number,indeximages:number){
-        const tempLocation = [...locations]
-        tempLocation[indexLocationBox].images.splice(indeximages,1)
-        setLocations(tempLocation)
-    }
+    // function handleAddLocationImg(e, indexLocationBox:number) {
+    //     const tempLocation = [...locations]
+    //     tempLocation[indexLocationBox].images.push(e.target.files[0]);
+    //     setLocations(tempLocation)
+    // }
+    // function handleRemoveLocationImg(indexLocationBox:number,indeximages:number){
+    //     const tempLocation = [...locations]
+    //     tempLocation[indexLocationBox].images.splice(indeximages,1)
+    //     setLocations(tempLocation)
+    // }
     function handleAddLocationAndValidation(){
-        setLocations([...locations,{ address: "",images: [] }]);
-        setValidationLocations(validationLocations=>([...validationLocations,{isValidationAddress:true,isValidationImg:true}]))
-        console.log(validationLocations);
-        
+        setLocations([...locations,{ name: "",imageUrls: [] }]);
+        setValidationLocations(validationLocations=>([...validationLocations,{isValidationAddress:true}]))
     }
     async function handleSuggestLocation(value:string){
-        let temp:{value:string}[] = []
+        let temp:{value:string,imageUrls:string[]}[] = []
         const result:any = await axiosClient(`/locations?address=${value}`,{withCredentials:true})
         if(result?.length) 
             temp = result.map(curr=>({"value":curr.name})) 
@@ -99,24 +92,24 @@ const LocationTrip = ({nextStep,preStep}) => {
                         <div className="flex gap-3 items-center mb-1">
                             <h2>Location: </h2>
                             {/* <Input style={{width:"15rem"}} value={curr.address} onChange={(e)=>handleChangeLocation(e.target.value,indexLocation)}/> */}
-                            <AutoComplete options={suggests} onChange={(value)=>handleChangeLocation(value,indexLocation)}  style={{ width: 200, borderRadius:"7px",border: !validationLocations[indexLocation]?.isValidationAddress ? 'solid 1px red':undefined}}/>
+                            <AutoComplete options={suggests} onSearch={(value)=>handleSuggestLocation(value)} onSelect={(value)=>handleChangeLocation(value,indexLocation)}  style={{ width: 200, borderRadius:"7px", borderColor: !validationLocations[indexLocation].isValidationAddress ? 'red': null }}/>
                         </div>
                         { !validationLocations[indexLocation].isValidationAddress && <p style={{ color: 'red', marginBottom: '10px' }}>You must type address !!!</p>}
                     </div>
                     <div className="images-box">
                         <div className="flex gap-2 items-center mb-1">
-                            {curr.images.length 
-                                && curr.images.map(
+                            {curr.imageUrls.length > 0
+                                && curr.imageUrls.map(
                                     (ele,indexLocationimages) => (
                                     <div key={indexLocationimages+"images"} className="relative">
-                                        <img style={{width:"9rem", height:"6rem", borderRadius:"4px"}} src={URL.createObjectURL(ele)} />
-                                        <svg onClick={()=>handleRemoveLocationImg(indexLocation,indexLocationimages)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{position:"absolute", width:"1.5rem",height:"1.5rem",top:"-0.5rem",right:"-0.5rem"}}>
+                                        <img style={{width:"9rem", height:"6rem", borderRadius:"4px"}} src={ele} />
+                                        {/* <svg onClick={()=>handleRemoveLocationImg(indexLocation,indexLocationimages)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{position:"absolute", width:"1.5rem",height:"1.5rem",top:"-0.5rem",right:"-0.5rem"}}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
+                                        </svg> */}
                                     </div>))}
-                            {curr.images.length < 3 && <input type="file" onChange={(e)=>handleAddLocationImg(e,indexLocation)} />}
+                            {/* {curr.images.length < 3 && <input type="file" onChange={(e)=>handleAddLocationImg(e,indexLocation)} />} */}
                         </div>
-                        {!validationLocations[indexLocation].isValidationImg && <p style={{ color: 'red', marginBottom: '10px' }}>Each address need at least a images !!!</p>}      
+                        {/* {!validationLocations[indexLocation].isValidationImg && <p style={{ color: 'red', marginBottom: '10px' }}>Each address need at least a images !!!</p>}       */}
                     </div>
                 </div>
             ))}

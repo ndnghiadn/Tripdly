@@ -9,7 +9,6 @@ export default class LocationController {
   async addLocation({ set, body, createdBy }) {
     try {
       // check unique name
-      // check unique name
       const { name } = body;
 
       const location = await Location.findOne({ name });
@@ -56,7 +55,7 @@ export default class LocationController {
     return await Location.find();
   }
   async findLocation({address}){
-    const docLocations = await Location.find({},{name:1});
+    const docLocations = await Location.find({},{name:1,imageUrls:1});
     return docLocations.filter(curr=>curr.name.toLowerCase().includes(address.toLowerCase()))
   }
   giveNameToImage(img:File) {
