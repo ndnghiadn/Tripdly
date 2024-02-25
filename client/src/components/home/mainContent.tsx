@@ -15,6 +15,16 @@ const MainContent = () => {
     }
     fetchData()
   },[])
+  const [trip,setTrip] = useState([])
+  useEffect(()=>{
+    const fetchData = async () => {
+      const res = await axiosClient.get("/trips",{
+        withCredentials: true
+      })
+      setTrip(res)
+    }
+    fetchData()
+  },[])
     return ( 
       <div className="flex-1 grid md:grid-cols-[1fr,300px]">
       
