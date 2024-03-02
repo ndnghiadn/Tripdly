@@ -53,8 +53,7 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
             ref={inputRef}
             type="text"
             id="first_name"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            // onChange={(e) => setMessage(e.target.value)}
             className="bg-gray-100 flex-1 border border-gray-400 text-black text-sm rounded-full p-2.5 "
             placeholder="Type a message ..."
           />

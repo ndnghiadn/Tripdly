@@ -31,7 +31,7 @@ const ChatForm = ({ tripId }) => {
       // Send the message text
       socketRef.current.send(
         JSON.stringify({
-          text: message,
+          text: inputRef.current.value,
         })
       );
       
@@ -78,11 +78,12 @@ const ChatForm = ({ tripId }) => {
       // Server sets a type for each message
       switch (event.type) {
         case "MESSAGES_ADD":
-          addMessage(event.data);
+          console.log("message add",event)
+          // addMessage(event.data);
           break;
         case "MESSAGES_SET":          
           console.log("message set",event.data);
-          setMessages(event.data);
+          // setMessages(event.data);
           break;
         case "USERS_ADD":
           addUser(event.data);
