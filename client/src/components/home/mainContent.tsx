@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import RightSideBar from "./rightSideBar";
 import { use, useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
+import TripCard from "../landingPage/trip-card";
 const MainContent = () => {
   const [trip,setTrip] = useState([])
   useEffect(()=>{
@@ -19,8 +20,9 @@ const MainContent = () => {
       
       <div className="space-y-4 p-4 md:p-6">
         <div>
-          <h1>All trip</h1>
-          {trip && trip.map(curr => (<h1 key={curr.title}>Name trip: {curr.title}</h1>))}
+          {/* <h1>All trip</h1> */}
+          {trip && trip.map(curr => (
+          <TripCard key={curr._id} trip={curr}/>))}
         </div>
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">

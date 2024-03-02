@@ -58,7 +58,7 @@ const RequestNotiItem = ({ request, removeItemById }) => {
       <div className="grid gap-1">
         <p className="text-sm font-medium">
           {request.createdBy.username} has requested to your{" "}
-          {request.tripId.title}
+          {request.tripId?.title}
         </p>
         <div className="flex space-x-2">
           <Button
