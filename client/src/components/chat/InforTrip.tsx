@@ -1,5 +1,4 @@
 import { Avatar } from "@mui/material";
-import { motion } from "framer-motion"
 import {BiTime} from "react-icons/bi"
 import {CiLocationOn} from "react-icons/ci"
 import {HiOutlineUserGroup} from "react-icons/hi"
@@ -10,7 +9,7 @@ const InforTrip = ({func}:{func:(isTrip:boolean)=>void}) => {
         <div className="relative w-full h-full flex sm:text-xs lg:text-base flex-col items-center gap-5 bg-white shadow-lg rounded-xl md:p-2  lg:p-6 xl:p-10">
             <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
             <p className="text-lg font-semibold text-[#6683C2]">Name trip</p>
-            <button className="absolute right-4 bottom-3 flex" onClick={()=>func(false)}>
+            <button title="ok" className="absolute right-4 bottom-3 flex" onClick={()=>func(false)}>
                 <GrFormNext className="w-7 h-7 animate-moving-right"></GrFormNext>
             </button>
             <div className="bg-white rounded-md px-2 py-2 flex-1 w-full">

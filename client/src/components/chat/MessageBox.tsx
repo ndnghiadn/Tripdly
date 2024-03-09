@@ -3,12 +3,9 @@ import { useEffect, useState } from "react";
 import TextType from "./MessageItem"
 import { MessageType } from "@/utils/types";
 import axiosClient from "@/lib/axiosClient";
-import chatBackground from "../../../public/images/chatBackground.png" 
 
 const MessageBox = ({messages, current}) => {
     const [data,setData] = useState<MessageType[]>([])
-    const [loading,setLoading] = useState<boolean>(false)
-    const [users,setUsers] = useState()
     useEffect(()=>{
         setData(messages.map((message) => ({
             ava: "",
@@ -22,7 +19,7 @@ const MessageBox = ({messages, current}) => {
           })))
     },[messages])
 
-    const getUserFullname = async (id) => {
+    const getUserFullname = async (id:string) => {
         try {
             const user = await axiosClient.get(`/user/${id}`,{
                 withCredentials: true
@@ -33,7 +30,7 @@ const MessageBox = ({messages, current}) => {
         };
     }
     return ( 
-        <div className="p-5 h-[30rem] w-[30rem] overflow-y-auto bg-[url(images/chatBackground.png')]">
+        <div className="p-5 h-[30rem] w-full overflow-y-auto bg-cover bg-no-repeat bg-[url('/images/chatBackground.png')]">
             {data.map((e, key)=>{
                 switch(e.type){
                     case "link":

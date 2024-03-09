@@ -6,18 +6,23 @@ import {BsEmojiSmile} from "react-icons/bs"
 import {GrAttachment} from "react-icons/gr"
 import { log } from "console";
 
-const MessageTool = ({inputRef, handleButtonClick}) => {
+interface MessageToolType{
+    inputRef: React.MutableRefObject<null>,
+    handleButtonClick: Promise<void>
+}
+
+const MessageTool : React.FC<MessageToolType> = ({inputRef, handleButtonClick}) => {
     const [visibleEmoji, setVisibleEmoji] = useState(false);
-    useEffect(() => {
-        const handleKeyPress = (event) => {
-            // Check if the Enter key is pressed
-            if (event.key === 'Enter') {
-                handleButtonClick();
-            }
-        };
+    const handleKeyPress = async (event:any) => {
+        // Check if the Enter key is pressed
+        if (event.key === 'Enter') {
+            await handleButtonClick();
+        }
+    };
     
+    useEffect(() => {    
         // Attach the keypress event listener to the input element using useRef
-        inputRef.current.addEventListener('keypress', handleKeyPress);
+        inputRef.current?.addEventListener('keypress', handleKeyPress);
     
         // Cleanup event listener when component unmounts
         return () => {

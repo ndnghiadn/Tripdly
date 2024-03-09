@@ -9,10 +9,10 @@ import UserInfo from "./UserInfor";
 import Block from "./Block";
 import { BlockUI } from 'primereact/blockui';
 
-const ChatForm = ({ tripId }) => {
+const ChatForm: React.FC<String> = ({ tripId }) => {
   const { current } = useUserStore();
   
-  const socketRef = useRef(null);
+  const socketRef = useRef<HTMLInputElement>(null);
 
   const isLogin = true;
   const [isTrip,setisTrip] = useState(true)
@@ -26,9 +26,9 @@ const ChatForm = ({ tripId }) => {
   const handleButtonClick = async () => {
     try {      
       // Send the message text
-      socketRef.current.send(
+      await socketRef.current?.send(
         JSON.stringify({
-          text: inputRef.current.value,
+          text: inputRef.current?.value.trim(),
         })
       );
       inputRef.current.value = '';      
@@ -38,16 +38,16 @@ const ChatForm = ({ tripId }) => {
   }
 
 
-  const addMessage = (message) => {
-    setMessages(prev => [...prev, message]);
+  const addMessage = (message:string) => {
+    setMessages((prev) => [...prev, message]);
   };
 
-  const addUser = (username) => {
+  const addUser = (username:string) => {
     // console.log("user added", username);
     users.push(username);
   };
 
-  const removeUser = (username) => {
+  const removeUser = (username:string) => {
     // console.log("user removed", username);
     setUsers((prevUsers) => prevUsers.filter(user => user !== username));
   };
@@ -65,7 +65,7 @@ const ChatForm = ({ tripId }) => {
 
 
     // Listen for messages
-    socketRef.current.addEventListener("message", (e) => {
+    socketRef.current?.addEventListener("message", (e) => {
       // Data sent will be a string so parse into an object
       const event = JSON.parse(e.data);
       console.log("event message", event);
@@ -101,7 +101,7 @@ const ChatForm = ({ tripId }) => {
         <SideBar/>
       </div> */}
       { current ?
-          <div className="bg-[#F6F8FA] h-full w-11/12 sm:w-4/5 sm:mr-3 flex flex-col rounded-xl">    
+          <div className="bg-[#F6F8FA] h-full w-full sm:w-4/5 sm:mr-3 flex flex-col rounded-xl">    
              <div className="flex-grow-0">
               <MessageHeader/>
             </div>
