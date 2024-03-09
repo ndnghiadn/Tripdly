@@ -6,7 +6,7 @@ import {BsEmojiSmile} from "react-icons/bs"
 import {GrAttachment} from "react-icons/gr"
 import { log } from "console";
 
-const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
+const MessageTool = ({inputRef, handleButtonClick}) => {
     const [visibleEmoji, setVisibleEmoji] = useState(false);
     useEffect(() => {
         const handleKeyPress = (event) => {
@@ -37,7 +37,7 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
                         previewPosition="none"
                         onEmojiSelect={(e: any) => {
                         setVisibleEmoji(!visibleEmoji);
-                        setMessage(message + e.native);
+                        inputRef.current.value+=e.native;
                         }}
                     />
                 </div>
@@ -53,7 +53,6 @@ const MessageTool = ({message, setMessage, inputRef, handleButtonClick}) => {
             ref={inputRef}
             type="text"
             id="first_name"
-            // onChange={(e) => setMessage(e.target.value)}
             className="bg-gray-100 flex-1 border border-gray-400 text-black text-sm rounded-full p-2.5 "
             placeholder="Type a message ..."
           />
