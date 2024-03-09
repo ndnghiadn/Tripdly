@@ -4,34 +4,37 @@ import { useTripStore } from '@/lib/zustand';
 import { Trip } from '@/utils/types';
 import { Col, InputNumber, Slider, Button } from 'antd';
 import { useState } from 'react';
+import { toast } from "sonner";
 
-const MemberTrip = ({preStep}) => {
-    const [members,setMembers] = useState(10);
+
+const MemberTrip = ({preStep,closeModal}) => {
+    const [members,setMembers] = useState(0);
     const setMembersStore = useTripStore((state:any)=>state.setMemberLimitTrip)
-    function handleMemberValue(){
-        if(!!members){
-            setMembersStore(members)
-        }
-    }
     const tripForm = useTripStore((state:any)=>state.tripCreated)
     async function handleCompleteForm(){
-        handleMemberValue()
-        console.log("trip form : ",tripForm);
-        
-        const res = await axiosClient.post(
-            "/trip",
-            tripForm,
-            {
-                withCredentials: true,
+        if(members){
+            console.log("trip form : ",tripForm);        
+            const res = await axiosClient.post(
+                "/trip",
+                tripForm,
+                {
+                    withCredentials: true,
+                }
+            )
+            if(res.message === 'Created trip successfully!'){
+                toast.success("Created trip successfully!")
+                closeModal()
             }
-        )
-        console.log(res.data);
-        
+            else{
+                toast.error("Something go wrong :(")
+            }
+        }
     }
 
 
     const onChange = (newValue: number) => {
         setMembers(newValue);
+        setMembersStore(newValue)
         }
     return ( 
         <div style={{height:"35rem"}}>

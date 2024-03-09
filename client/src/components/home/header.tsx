@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "antd";
-import MultiStepCreateTrip from "../TripForm/MultiStepForm";
+import MultiStepCreateTrip from "../Trip/MultiStepForm";
 import { useState } from "react";
 
 const Header = () => {

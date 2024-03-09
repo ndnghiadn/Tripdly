@@ -3,7 +3,7 @@
 import 'primeicons/primeicons.css';
 import NotiWidget from '../notification/noti-widget';
 import UserWidget from '../user-widget';
-import MultiStepCreateTrip from '../TripForm/MultiStepForm';
+import MultiStepCreateTrip from '../Trip/MultiStepForm';
 import { useState } from 'react';
 import Link from 'next/link';
 function Header() {

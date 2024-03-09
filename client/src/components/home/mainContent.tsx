@@ -3,8 +3,19 @@ import { Button } from "@/components/ui/button"
 import RightSideBar from "./rightSideBar";
 import { use, useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
-import TripCard from "../landingPage/trip-card";
+import TripCard from "../Trip/TripCard";
 const MainContent = () => {
+  const [trip,setTrip] = useState([])
+  useEffect(()=>{
+    const fetchData = async () => {
+      const res = await axiosClient.get("/trips",{
+        withCredentials: true
+      })
+      setTrip(res)
+      console.log(res);
+    }
+    fetchData()
+  },[])
   const [trip,setTrip] = useState([])
   useEffect(()=>{
     const fetchData = async () => {
@@ -19,136 +30,9 @@ const MainContent = () => {
       <div className="flex-1 grid md:grid-cols-[1fr,300px]">
       
       <div className="space-y-4 p-4 md:p-6">
-        <div>
-          {/* <h1>All trip</h1> */}
-          {trip && trip.map(curr => (
-          <TripCard key={curr._id} trip={curr}/>))}
+        <div className="flex flex-col gap-4">
+          {trip.map(curr=> <TripCard key={curr._id} trip={curr}/>)}
         </div>
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="48"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "48/48",
-                  objectFit: "cover",
-                }}
-                width="48"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <div className="flex items-center gap-1.5">
-                <div className="font-semibold">Acme Inc</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">@acmeinc · 2m</div>
-              </div>
-              <div className="line-clamp-2">
-                Hey there! We're excited to announce the launch of our brand new app. It's been a labor of love, and we
-                can't wait for you to try it out. Let us know what you think! 🚀
-              </div>
-              <img
-                alt="Cover image"
-                className="aspect-video overflow-hidden rounded-xl object-cover object-center"
-                height="250"
-                src="/placeholder.svg"
-                width="500"
-              />
-              <div className="flex w-full items-center justify-between gap-4">
-                <div className="flex items-center gap-1">
-                  <Button size="icon" variant="ghost">
-                    <HeartIcon className="w-4 h-4" />
-                    <span className="sr-only">Like</span>
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <MessageCircleIcon className="w-4 h-4" />
-                    <span className="sr-only">Comment</span>
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <RepeatIcon className="w-4 h-4" />
-                    <span className="sr-only">Share</span>
-                  </Button>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                  <Button size="icon" variant="ghost">
-                    <CameraIcon className="w-4 h-4" />
-                    <span className="sr-only">Image</span>
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <VideoIcon className="w-4 h-4" />
-                    <span className="sr-only">Video</span>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="48"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "48/48",
-                  objectFit: "cover",
-                }}
-                width="48"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <div className="flex items-center gap-1.5">
-                <div className="font-semibold">Grace Lee</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">@gracelee · 5m</div>
-              </div>
-              <div className="line-clamp-2">
-                {`\n                Just finished reading the latest bestseller and I&apos;m\n                absolutely blown away. The plot twists, the character\n                development, everything about it is just so captivating. I\n                highly recommend it! 📚❤\u{fe0f}\n              `}
-              </div>
-              <div className="grid w-full gap-4 images justify-start">
-                <img
-                  alt="Image"
-                  className="aspect-square overflow-hidden rounded-lg object-cover object-center"
-                  height="150"
-                  src="/placeholder.svg"
-                  width="150"
-                />
-                <img
-                  alt="Image"
-                  className="aspect-square overflow-hidden rounded-lg object-cover object-center"
-                  height="150"
-                  src="/placeholder.svg"
-                  width="150"
-                />
-                <img
-                  alt="Image"
-                  className="aspect-square overflow-hidden rounded-lg object-cover object-center"
-                  height="150"
-                  src="/placeholder.svg"
-                  width="150"
-                />
-              </div>
-              <div className="flex w-full items-center justify-between gap-4">
-                <div className="flex items-center gap-1">
-                  <Button size="icon" variant="ghost">
-                    <HeartIcon className="w-4 h-4" />
-                    <span className="sr-only">Like</span>
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <MessageCircleIcon className="w-4 h-4" />
-                    <span className="sr-only">Comment</span>
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <RepeatIcon className="w-4 h-4" />
-                    <span className="sr-only">Share</span>
-                  </Button>
-                </div>
-                <Button size="icon" variant="outline">
-                  <PlusIcon className="w-4 h-4" />
-                  <span className="sr-only">Add to favorites</span>
-                </Button>
-              </div>
-            </div>
-          </div>
       </div>
       <RightSideBar/>
       </div>
