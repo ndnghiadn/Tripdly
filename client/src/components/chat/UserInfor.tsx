@@ -2,7 +2,7 @@ import { Avatar } from '@mui/material';
 import {BsTelephone} from 'react-icons/bs'
 import {IoIosArrowBack} from 'react-icons/io'
 import ReactPlayer from 'react-player'
-
+import React from 'react'
 
 const UserInfo = ({func}:{func:(isTrip:boolean)=>void}) => {
     return ( 
@@ -35,11 +35,11 @@ const UserInfo = ({func}:{func:(isTrip:boolean)=>void}) => {
             </div>
             <div className='absolute bottom-1 left-2'>
                 <button className='animate-moving-right' onClick={()=>func(true)}>
-                    <IoIosArrowBack className="w-6 h-6"></IoIosArrowBack>
+                    <IoIosArrowBack className="w-6 h-6"/>
                 </button>
             </div>
         </div>
      );
 }
  
-export default UserInfo;
+export default React.memo(UserInfo);

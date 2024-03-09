@@ -1,6 +1,5 @@
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
-// import { useAuthStore } from "../store/auth";
 
 const MessageHeader = () => {
     const isLogin = true;
@@ -14,7 +13,7 @@ const MessageHeader = () => {
           </AvatarGroup>
           {isLogin ? (
             <div className="flex justify-between flex-1 items-center ">
-              <p>Hmm feeling the trip's not suitable for ya</p>
+              <p>Hmm feeling the trip&apos;s not suitable for ya</p>
               <button className="text-white bg-red-500 font-medium rounded-full text-sm px-2 py-1">
                 Leave
               </button>
