@@ -46,6 +46,19 @@ const userRouter = new Elysia()
       return { message: "Unauthorized" };
     }
     return await userCtrl.getUserByUserId({ set, userId });
-  });
+  })
+  .get("/user/:id", async ({ params , set, userCtrl}) => {
+    const { id } = params;
+    if (!id) {
+      set.status = 401;
+      return { message: "UserId require" };
+    }
+    return await userCtrl.getUserByUserId({ set, userId:id });
+  },
+  {
+    params: t.Object({
+        id: t.String()
+    })}
+  );
 
 export default userRouter;

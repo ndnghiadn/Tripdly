@@ -1,20 +1,15 @@
-import { message } from 'antd';
-import { cloneElement } from 'react';
-import { data } from '@emoji-mart/data';
-import { cookie } from '@elysiajs/cookie';
 import { Message } from './../models/message';
 import { Trip } from '../models/trip';
-import { User } from '../models/user';
 import { Request } from '../models/request';
-import { log } from 'console';
 import Elysia from "elysia";
-import { decode } from 'punycode';
-import mongoose, { Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 const saveMessageData = async (userId, tripId, content) => {
   try {
-    const message = new Message({ userId: new Types.ObjectId(userId),
-      tripId: new Types.ObjectId(tripId), content });
+    const message = new Message({ 
+      userId: new Types.ObjectId(userId),
+      tripId: new Types.ObjectId(tripId), content 
+    });
 
     await message.save();
     console.log("Message saved successfully");    
@@ -45,8 +40,6 @@ const chatSocket = new Elysia().ws("/chat",  {
         const users = await Request.find({tripId: new Types.ObjectId(ws.data.cookie.tripId), status: "Accepted"});
         const messages = await Message.find({tripId: new Types.ObjectId(ws.data.cookie.tripId)});
 
-        // console.log(messages)
-
         // // Subscribe to pubsub channel to send/receive broadcasted messages,
         // // without this the socket could not send events to other clients
         ws.subscribe(ws.data.cookie.tripId);
@@ -65,20 +58,28 @@ const chatSocket = new Elysia().ws("/chat",  {
       }
     },
     async message(ws: any, data: { text: string }) {      
-      const { userId } = ws.data.jwt.verify(ws.data.cookie.auth)
+      const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
 
       try{
         //Saving message data, send and publish to subcribers
         await saveMessageData(userId, ws.data.cookie.tripId, data.text)
-        ws.send(JSON.stringify({ type: "MESSAGES_ADD", data: data.text }));
  
-        ws.publish(
-          ws.data.cookie.tripId,
-          JSON.stringify({
-            type: "MESSAGES_ADD",
-            data: { username: userId, text: data.text },
-          })
-        );
+        Message.findOne({ tripId: new Types.ObjectId(ws.data.cookie.tripId) })
+        .sort({ createdAt: -1 })
+        .exec()
+        .then((latestMessage) => {
+          ws.send(JSON.stringify({ type: "MESSAGES_ADD", data: latestMessage }));
+          ws.publish(
+            ws.data.cookie.tripId,
+            JSON.stringify({
+              type: "MESSAGES_ADD",
+              data: latestMessage,
+            })
+          );
+        })
+        .catch((err) => {
+          console.error('Error finding latest document:', err);
+        });
       }catch(err){
         // Handle errors
         console.error('Error in main block:', err);
