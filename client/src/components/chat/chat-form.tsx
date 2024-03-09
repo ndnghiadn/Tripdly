@@ -18,12 +18,9 @@ const ChatForm = ({ tripId }) => {
   const [isTrip,setisTrip] = useState(true)
   const dummy = useRef<HTMLDivElement>(null)
 
-  const [message, setMessage] = useState("");
-
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const inputRef = useRef(null);
-  // console.log(messages);
   
 
   const handleButtonClick = async () => {
@@ -34,7 +31,7 @@ const ChatForm = ({ tripId }) => {
           text: inputRef.current.value,
         })
       );
-      
+      inputRef.current.value = '';      
     } catch (error) {
       console.error(error);
     }
@@ -42,8 +39,7 @@ const ChatForm = ({ tripId }) => {
 
 
   const addMessage = (message) => {
-    // console.log("message added", message);
-    messages.push(message);
+    setMessages(prev => [...prev, message]);
   };
 
   const addUser = (username) => {
@@ -79,11 +75,11 @@ const ChatForm = ({ tripId }) => {
       switch (event.type) {
         case "MESSAGES_ADD":
           console.log("message add",event)
-          // addMessage(event.data);
+          addMessage(event.data);
           break;
         case "MESSAGES_SET":          
           console.log("message set",event.data);
-          // setMessages(event.data);
+          setMessages(event.data);
           break;
         case "USERS_ADD":
           addUser(event.data);
@@ -114,7 +110,7 @@ const ChatForm = ({ tripId }) => {
               <MessageBox messages={messages}/>
             </div>
             <div className="flex-grow-0">
-              <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>
+              <MessageTool inputRef={inputRef} handleButtonClick={handleButtonClick}/>
             </div>
           </div>
         : 
@@ -127,7 +123,7 @@ const ChatForm = ({ tripId }) => {
                 <MessageBox messages={messages}/>
               </div>
               <div className="flex-grow-0">
-                <MessageTool message={message} setMessage={setMessage} inputRef={inputRef} handleButtonClick={handleButtonClick}/>
+                <MessageTool inputRef={inputRef} handleButtonClick={handleButtonClick}/>
               </div>
             </div>
           </BlockUI>
