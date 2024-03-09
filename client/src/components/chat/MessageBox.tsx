@@ -2,33 +2,46 @@
 import { useEffect, useState } from "react";
 import TextType from "./MessageItem"
 import { MessageType } from "@/utils/types";
-const MessageBox = ({messages}) => {
-    console.log(messages)
+import axiosClient from "@/lib/axiosClient";
+import chatBackground from "../../../public/images/chatBackground.png" 
+
+const MessageBox = ({messages, current}) => {
     const [data,setData] = useState<MessageType[]>([])
+    const [loading,setLoading] = useState<boolean>(false)
+    const [users,setUsers] = useState()
     useEffect(()=>{
         setData(messages.map((message) => ({
             ava: "",
-            name: message.userId,
+            name: getUserFullname(message.userId),
             time: message.createdAt,
             type: "text",
             content: message.content,
             reply: null,
-            role: "host",
-            site: "other",
+            role: "guest",
+            site: message.userId === current._id ? "me" : "other",
           })))
-
-        console.log(data,"data",messages,"messages")
     },[messages])
+
+    const getUserFullname = async (id) => {
+        try {
+            const user = await axiosClient.get(`/user/${id}`,{
+                withCredentials: true
+            })
+            return user.username
+        } catch (error) {
+          console.log(error);
+        };
+    }
     return ( 
-        <div className="p-5 h-[30rem] overflow-y-auto">
-            {data.map((e)=>{
+        <div className="p-5 h-[30rem] w-[30rem] overflow-y-auto bg-[url(images/chatBackground.png')]">
+            {data.map((e, key)=>{
                 switch(e.type){
                     case "link":
-                        return <div></div>
+                        return <div key={key}></div>
                     case "image":
-                        return <div></div>
+                        return <div key={key}></div>
                     default:
-                        return <TextType params={e}/>
+                        return <TextType params={e} key={key}/>
                 }
             })}
         </div>
