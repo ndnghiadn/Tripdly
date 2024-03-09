@@ -16,7 +16,6 @@ const MainContent = () => {
     }
     fetchData()
   },[])
-  const [trip,setTrip] = useState([])
   useEffect(()=>{
     const fetchData = async () => {
       const res = await axiosClient.get("/trips",{
