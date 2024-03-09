@@ -56,7 +56,6 @@ const ChatForm = ({ tripId }) => {
 
   useEffect(() => {
     document.cookie = "tripId=" + tripId + "; path=/";
-    document.cookie = "userId=" + current._id + "; path=/";
 
     if (!socketRef.current) {
       //Start a connection
@@ -107,7 +106,7 @@ const ChatForm = ({ tripId }) => {
               <MessageHeader/>
             </div>
             <div className="flex-1 overflow-auto no-scrollbar" ref={dummy}>
-              <MessageBox messages={messages}/>
+              <MessageBox messages={messages} current={current}/>
             </div>
             <div className="flex-grow-0">
               <MessageTool inputRef={inputRef} handleButtonClick={handleButtonClick}/>
@@ -120,7 +119,7 @@ const ChatForm = ({ tripId }) => {
                 <MessageHeader/>
               </div>
               <div className="flex-1 overflow-auto no-scrollbar" ref={dummy}>
-                <MessageBox messages={messages}/>
+                <MessageBox messages={messages} current={current}/>
               </div>
               <div className="flex-grow-0">
                 <MessageTool inputRef={inputRef} handleButtonClick={handleButtonClick}/>
