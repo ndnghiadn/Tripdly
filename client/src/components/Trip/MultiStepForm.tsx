@@ -3,10 +3,10 @@
 import { cloneElement, useState } from "react";
 import {Button,Modal, Steps} from 'antd'
 import LocationTrip from "./LocationTrip.tsx";
-import NameTrip from "./NameTrip";
-import TimeTrip from "./TimeTrip";
-import DescriptinTrip from "./DescriptionTrip";
-import MemberTrip from "./MemberTrip";
+import NameTrip from "./NameTrip.tsx";
+import TimeTrip from "./TimeTrip.tsx";
+import DescriptinTrip from "./DescriptionTrip.tsx";
+import MemberTrip from "./MemberTrip.tsx";
 
 const steps = [
     {
@@ -27,7 +27,7 @@ const steps = [
     },
     {
       title: "Member trip",
-      component: <MemberTrip preStep={()=>{}}/>
+      component: <MemberTrip preStep={()=>{}}closeModal={()=>{}}/>
     }
 ];
 
@@ -69,34 +69,7 @@ const MultiStepCreateTrip= () => {
           <Steps current={current} items={items} direction="vertical" className='grow-0 shrink basis-[10rem]'/>
           <div className='flex-1'>
             { current < steps.length - 1 && cloneElement(steps[current]["component"], { nextStep: next, preStep: prev })}
-            { current === steps.length - 1 && cloneElement(steps[current]["component"], { preStep: prev })}
-
-            {/* <div
-              style={{
-                marginTop: 24,
-              }}
-            >
-              {current < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
-                  Next
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                  Done
-                </Button>
-              )}
-              {current > 0 && (
-                <Button
-                  style={{
-                    margin: '0 8px',
-                  }}
-                  onClick={() => prev()}
-                >
-                  Previous
-                </Button>
-              )}
-            </div> */}
+            { current === steps.length - 1 && cloneElement(steps[current]["component"], { preStep: prev, closeModal: handleCancel })}
           </div>
         </div>
       </Modal>

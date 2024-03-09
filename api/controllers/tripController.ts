@@ -15,6 +15,6 @@ export default class TripController {
   }
 
   async getAllLatestTrips() {
-    return await Trip.find();
+    return await Trip.find().populate('createdBy','username')
   }
 }
