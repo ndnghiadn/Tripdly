@@ -9,7 +9,6 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 
 const RequestNotiItem = ({ request, removeItemById }) => {
   const { current } = useUserStore();
-  document.cookie = "userId=" + current._id + "; path=/";
   const socket = new WebSocket("ws://localhost:8888/notification");
   const handleAcceptRequest = async () => {
     try {

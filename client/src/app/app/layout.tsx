@@ -8,7 +8,6 @@ const AppLayout = ({children}) => {
             <Header/>
             <main className="flex-1 grid md:grid-cols-[200px,1fr]">
                 <LeftSideBar/>
-                {/* <MainContent/> */}
                 {children}
             </main>
         </div>

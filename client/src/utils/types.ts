@@ -1,7 +1,17 @@
+enum UserRole {
+  "MA",
+  "Guide",
+  "Visitor",
+}
 export type User = {
   _id: string;
+  role: UserRole;
   username: string;
-  role: string;
+  fullname: string;
+  dob: Date;
+  address: string;
+  phoneNumber: string;
+  createdAt: Date;
 };
 
 export type Location = {
@@ -14,10 +24,10 @@ export type Location = {
 };
 
 export type TimeTrip = {
-  date: string,
-  from: string,
-  to: string
-}
+  date: string;
+  from: string;
+  to: string;
+};
 
 export type Trip = {
   _id?: string;
@@ -28,7 +38,7 @@ export type Trip = {
   memberLimit: number;
   time: TimeTrip;
   title: string;
-  description: string
+  description: string;
 };
 
 export type Noti = {
@@ -37,7 +47,7 @@ export type Noti = {
   userId: User;
   data: string;
   type: string;
-}
+};
 
 export type Request = {
   _id: string;
@@ -47,21 +57,21 @@ export type Request = {
   message: string;
   memberQuantity: number;
   status: string;
-}
+};
 
 export type SideBarItem = {
-  path: string,
-  namePath: string,
-  icon: string
-}
+  path: string;
+  namePath: string;
+  icon: string;
+};
 
 export type MessageType = {
-  ava : string,
-  name : string,
-  time : string,
-  type : string,
-  content : string,
-  reply : string | null,
-  role : string,
-  site : string
-}
+  ava: string;
+  name: string;
+  time: string;
+  type: string;
+  content: string;
+  reply: string | null;
+  role: string;
+  site: string;
+};

@@ -60,7 +60,6 @@ const TripCard = ({ key, trip }) => {
   };
 
   const handleAddNoti = async ({ data }) => {
-    document.cookie = "userId=" + current._id + "; path=/";
     const socket = new WebSocket("ws:localhost:8888/notification");
     try {
       const response = await axiosClient.post("/noti", {

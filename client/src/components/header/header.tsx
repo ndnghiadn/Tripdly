@@ -1,14 +1,16 @@
+"use client";
+import "primeicons/primeicons.css";
+import NotiWidget from "../notification/NotiWidget";
+import UserWidget from "../UserWidget";
 
-"use client"
-import 'primeicons/primeicons.css';
-import NotiWidget from '../notification/NotiWidget';
-import UserWidget from '../UserWidget';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import MultiStepCreateTrip from '../Trip/MultiStepForm';
+import { useState } from "react";
+import Link from "next/link";
+import MultiStepCreateTrip from "../Trip/MultiStepForm";
+import { useUserStore } from "@/lib/zustand";
+import { Button } from "../ui/button";
 function Header() {
-  const [isCreateTrip,setIsCreateTrip] = useState(false)
+  const [isCreateTrip, setIsCreateTrip] = useState(false);
+  const { current } = useUserStore();
   return (
     <>
       <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30">
@@ -22,8 +24,11 @@ function Header() {
               <span className="sr-only">Tripdly</span>
             </Link>
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
-
-              <MultiStepCreateTrip/>
+              {current && current.role === "Guide" ? (
+                <MultiStepCreateTrip />
+              ) : (
+                <Button>Become a Guide</Button>
+              )}
               <NotiWidget />
               <UserWidget />
             </div>
