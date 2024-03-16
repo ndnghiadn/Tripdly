@@ -24,7 +24,6 @@ const NotiWidget = () => {
   const [notiList, setNotiList] = useState<Noti[]>([]);
 
   useEffect(() => {
-    document.cookie = "userId=" + current._id + "; path=/";
     const socket = new WebSocket("ws://localhost:8888/notification");
 
     const addNoti = (noti: Noti) => {
@@ -45,8 +44,7 @@ const NotiWidget = () => {
       );
     };
     // Listen for messages
-    socket.addEventListener("open", (e) => {
-    });
+    socket.addEventListener("open", (e) => {});
     socket.addEventListener("message", (e) => {
       // Data sent will be a string so parse into an object
       const event = JSON.parse(e.data);

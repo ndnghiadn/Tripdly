@@ -36,6 +36,7 @@ const LoginForm = () => {
         },
         { withCredentials: true }
       );
+      console.log("user vua login ne bo", response);
       setUser(response.data);
       toast.success(response.message);
       router.push("/app");
