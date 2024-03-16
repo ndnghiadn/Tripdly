@@ -1,5 +1,5 @@
-import UserPage from "@/components/user/user-page";
+import { ProfileView } from "@/views";
 
 export default function User({ params }) {
-  return <UserPage userId={params.userId} />;
+  return <ProfileView userId={params.userId} />;
 }

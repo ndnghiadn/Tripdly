@@ -1,9 +1,7 @@
-import MainContent from "@/components/home/mainContent";
+import MainContent from "@/views/home/MainContent";
 
-const AppPage = () =>{
-    return(
-        <MainContent/>
-    )
-}
+const AppPage = () => {
+  return <MainContent />;
+};
 
 export default AppPage;

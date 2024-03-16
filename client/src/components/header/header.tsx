@@ -1,9 +1,9 @@
 
 "use client"
 import 'primeicons/primeicons.css';
-import NotiWidget from '../notification/noti-widget';
-import UserWidget from '../user-widget';
-import MultiStepCreateTrip from '../Trip/MultiStepForm';
+import NotiWidget from '../notification/NotiWidget';
+import UserWidget from '../UserWidget';
+import MultiStepCreateTrip from '../trip/MultiStepForm';
 import { useState } from 'react';
 import Link from 'next/link';
 function Header() {

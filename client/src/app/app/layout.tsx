@@ -1,6 +1,6 @@
-import LeftSideBar from "@/components/home/leftSideBar";
-import RightSideBar from "@/components/home/rightSideBar";
-import Header  from "../../components/header/header"
+
+import LeftSideBar from "@/views/home/LeftSideBar";
+import Header  from "../../components/header/Header"
 const AppLayout = ({children}) => {
     return ( 
         <div className="flex flex-col min-h-screen">   
