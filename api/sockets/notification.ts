@@ -3,16 +3,13 @@ import { Noti } from "../models/noti";
 
 const notiSocket = new Elysia().ws("/notification", {
   async open(ws: any) {
-    ws.subscribe(ws.data.cookie.userId);
+    const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth);
+    ws.subscribe(userId);
     const tmp = await Noti.find({
-      userId: ws.data.cookie.userId,
+      userId,
     });
     ws.send(JSON.stringify({ type: "NOTI_SET", data: tmp }));
-    console.log(
-      "User",
-      ws.data.cookie.userId,
-      "has subcribe to his notification channel"
-    );
+    console.log("User", userId, "has subcribe to his notification channel");
   },
   message(ws: any, message: { data: any; type: string }) {
     switch (message.type) {
