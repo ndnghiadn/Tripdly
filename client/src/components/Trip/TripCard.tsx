@@ -20,6 +20,9 @@ import axiosClient from "@/lib/axiosClient";
 import { useUserStore } from "@/lib/zustand";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import Image from "next/image"
+import TitleImage from "./TripCardImage"
+import TripCardImage from "./TripCardImage"
 
 type Inputs = {
   message: string;
@@ -35,6 +38,15 @@ const TripCard = ({ key, trip }) => {
   } = useForm<Inputs>();
   const { current } = useUserStore();
 
+  // handle event
+  // const formatDate = (value: string) => {
+  //   const date = new Date(value)
+  //   return date.toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+  // }
+  const formatTime = (value: string) => {
+    const date = new Date(value)
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  }
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       const response = await axiosClient.post("/request", {
@@ -69,29 +81,27 @@ const TripCard = ({ key, trip }) => {
   };
   return (
     
-      <Card className="w-[350px]">
+      <Card className="w-3/4">
          <CardHeader>
-             <Avatar>
-                 <AvatarImage src="https:github.com/shadcn.png" />
-                 <AvatarFallback>CN</AvatarFallback>
-             </Avatar>
-             <div className="flex flex-col">
-                 <Label>{trip.createdBy.username}</Label>
-                 <span>{trip.createdAt.toLocaleString('en-GB', { timeZone: 'UTC' })}</span>
-             </div>
+              <Avatar className="w-14 h-14">
+                  <AvatarImage src="https:github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                  <Label className="text-lg">{trip.createdBy.username}</Label>
+                  <span>{formatTime(trip.createdAt)}</span>
+              </div>
          </CardHeader>
          <CardContent>
-             <CardTitle>{trip.title}</CardTitle>
+             <CardTitle className="text-2xl">{trip.title}</CardTitle>
              <CardDescription>{trip.description}</CardDescription>
-             <div className="flex gap-3">
-                {trip.locations.length > 0 && trip.locations[0].imageUrls.map(curr=><img key={curr} className="h-auto max-w-lg rounded-lg" src={curr} alt="image description"/>)}
-             </div>
+              <TripCardImage dataImgs={trip.locations}/>
          </CardContent>
          <CardFooter className="flex justify-between">
              <div className="flex gap-3 items-center">
                 <Popover>
                     <PopoverTrigger asChild>
-                    <Button>Join</Button>
+                    <Button variant={"outline"}>Join</Button>
                  </PopoverTrigger>
                  <PopoverContent className="w-80">
                     <form onSubmit={handleSubmit(onSubmit)}>

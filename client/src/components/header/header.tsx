@@ -3,9 +3,10 @@
 import 'primeicons/primeicons.css';
 import NotiWidget from '../notification/NotiWidget';
 import UserWidget from '../UserWidget';
-import MultiStepCreateTrip from '../trip/MultiStepForm';
+
 import { useState } from 'react';
 import Link from 'next/link';
+import MultiStepCreateTrip from '../Trip/MultiStepForm';
 function Header() {
   const [isCreateTrip,setIsCreateTrip] = useState(false)
   return (
