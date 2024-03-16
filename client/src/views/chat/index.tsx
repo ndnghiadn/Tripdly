@@ -12,7 +12,8 @@ import { BlockUI } from 'primereact/blockui';
 export const ChatForm: React.FC<String> = ({ tripId }) => {
   const { current } = useUserStore();
   
-  const socketRef = useRef<HTMLInputElement>(null);
+  const socketRef = useRef(null);
+  const newMessageRef = useRef(null);
 
   const isLogin = true;
   const [isTrip,setisTrip] = useState(true)
@@ -20,7 +21,7 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
 
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   
 
   const handleButtonClick = async () => {
@@ -58,9 +59,14 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
     document.cookie = "tripId=" + tripId + "; path=/";
 
     if (!socketRef.current) {
-      //Start a connection
+      //Start a connection to chat server
       socketRef.current = new WebSocket('ws://localhost:8888/chat');
 
+    }
+
+    if (!newMessageRef.current) {
+      //Start a connection to new message server
+      newMessageRef.current = new WebSocket('ws://localhost:8888/new-message');
     }
 
 
