@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { use, useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
 import RightSideBar from "./RightSideBar";
-import TripCard from "@/components/trip/TripCard";
+import TripCard from "@/components/Trip/TripCard";
+
 const MainContent = () => {
   const [trip, setTrip] = useState([]);
   useEffect(() => {

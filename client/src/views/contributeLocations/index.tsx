@@ -11,8 +11,8 @@ export const ContributeLocation= ()=> {
     const [validAddress,setValidAddress] = useState(true)
     const [validImgs,setValidImgs] = useState(true)
     const [imgs,setImgs] = useState<File[]>([])
-    function handleDescriptionChange(){
-        setDescription(description)
+    function handleDescriptionChange(value:string){
+        setDescription(value)
     }
     function handleAddLocationImg(e){
         setImgs([...imgs,e.target.files[0]])
@@ -68,7 +68,7 @@ export const ContributeLocation= ()=> {
                             rows={5}
                             placeholder="Write your description here"
                             value={description}
-                            onChange={handleDescriptionChange}
+                            onChange={e => handleDescriptionChange(e.target.value)}
                             // style={{ borderColor: error ? 'red' : null }}
                         />
                     </div>
