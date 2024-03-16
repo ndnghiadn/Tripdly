@@ -1,8 +1,6 @@
-import ContributeLocation from "@/components/contribute-locations";
+import { ContributeLocation } from "@/views";
 const ContributeLocationPage = () => {
-    return ( 
-        <ContributeLocation/>
-     );
-}
- 
+  return <ContributeLocation />;
+};
+
 export default ContributeLocationPage;

@@ -1,15 +1,15 @@
 "use client";
 import { useUserStore } from "@/lib/zustand";
 import React, { useEffect, useRef, useState } from "react";
-import MessageBox from "./MessageBox";
-import MessageHeader from "./MessageHeader";
-import MessageTool from "./MessageTool";
-import InforTrip from "./InforTrip";
-import UserInfo from "./UserInfor";
-import Block from "./Block";
+import MessageBox from "../../components/chat/MessageBox";
+import MessageHeader from "../../components/chat/MessageHeader";
+import MessageTool from "../../components/chat/MessageTool";
+import InforTrip from "../../components/chat/InforTrip";
+import UserInfo from "../../components/chat/UserInfor";
+import Block from "../../components/chat/Block";
 import { BlockUI } from 'primereact/blockui';
 
-const ChatForm: React.FC<String> = ({ tripId }) => {
+export const ChatForm: React.FC<String> = ({ tripId }) => {
   const { current } = useUserStore();
   
   const socketRef = useRef<HTMLInputElement>(null);
@@ -154,5 +154,3 @@ const ChatForm: React.FC<String> = ({ tripId }) => {
     </>
   );
 };
-
-export default ChatForm;

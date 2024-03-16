@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import type { Noti } from "@/utils/types";
 
 import { DropdownMenuItem } from "../ui/dropdown-menu";
-import RequestNotiItem from "./request-item";
+import RequestNotiItem from "./RequestItem";
 import axiosClient from "@/lib/axiosClient";
 
 const RequestList = ({ notiList }) => {

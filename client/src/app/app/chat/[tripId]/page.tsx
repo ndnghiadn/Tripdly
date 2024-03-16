@@ -1,6 +1,7 @@
-'use client'
-import ChatForm from "@/components/chat/chat-form";
+"use client";
+
+import { ChatForm } from "@/views";
 
 export default function ChatRoom({ params }) {
-  return <ChatForm tripId={params.tripId}/>;
+  return <ChatForm tripId={params.tripId} />;
 }

@@ -5,7 +5,7 @@ import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 // import "./index.css"
 
-const ContributeLocation= ()=>{
+export const ContributeLocation= ()=> {
     const [addressLocation,setAddressLocation] = useState("")
     const [description,setDescription] = useState("")
     const [validAddress,setValidAddress] = useState(true)
@@ -92,4 +92,3 @@ const ContributeLocation= ()=>{
         </div>
     )
 }
-export default ContributeLocation;

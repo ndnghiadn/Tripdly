@@ -2,7 +2,7 @@
 import { useUserStore } from "@/lib/zustand";
 import { Noti, Request } from "@/utils/types";
 import { useEffect, useState } from "react";
-import RequestList from "./request-list";
+import RequestList from "./RequestList";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +46,6 @@ const NotiWidget = () => {
     };
     // Listen for messages
     socket.addEventListener("open", (e) => {
-      console.log("im online now", e);
     });
     socket.addEventListener("message", (e) => {
       // Data sent will be a string so parse into an object

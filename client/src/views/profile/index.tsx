@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
 
-const UserPage = ({ _id }) =>{
+export const ProfileView = ({ _id }) =>{
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(true)
     useEffect(() => {
@@ -107,5 +107,3 @@ const UserPage = ({ _id }) =>{
     
   )
 }
-
-export default UserPage

@@ -2,7 +2,7 @@ import { MessageType } from "../../utils/types";
 import Ava from "./Ava";
 
 const TextType = ({params}:{params:MessageType}) => {
-    const time = params.time.slice(0,10)+" "+params.time.slice(11,16)
+    const time = params.time?.slice(0,10)+" "+params.time?.slice(11,16)
     return ( 
         <>
         { (params.site === "me" && params.content !== "")
