@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Request } from "../models/request.ts";
 import { Trip } from "../models/trip.ts";
 
@@ -111,5 +112,10 @@ export default class RequestController {
       set.status = 500;
       return { message: "Server failed" };
     }
+  }
+
+  async getRequestToTripByUserId({userId, tripId}) {
+    return await Request.findOne({createdBy: new Types.ObjectId(userId),
+      tripId: new Types.ObjectId(tripId)});
   }
 }

@@ -19,6 +19,8 @@ import uploadRouter from './routes/uploadRoter'
 import * as mongoose from "mongoose";
 import notiSocket from "./sockets/notification";
 import chatSocket from "./sockets/chat";
+import MessageController from "./controllers/messageController";
+import newMessageSocket from "./sockets/newMessage";
 
 // connect to database
 try {
@@ -53,6 +55,7 @@ const app = new Elysia()
   .decorate("requestCtrl", new RequestController())
   .decorate("ratingCtrl", new RatingController())
   .decorate("notiCtrl", new NotiController())
+  .decorate("messageCtrl", new MessageController())
 
   // =======routers=======
   .use(tripRouter)
@@ -66,6 +69,7 @@ const app = new Elysia()
   // =======sockets=======
   .use(notiSocket)
   .use(chatSocket)
+  .use(newMessageSocket)
 
   .listen(PORT);
 

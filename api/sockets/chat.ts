@@ -4,20 +4,6 @@ import { Request } from '../models/request';
 import Elysia from "elysia";
 import { Types } from 'mongoose';
 
-const saveMessageData = async (userId, tripId, content) => {
-  try {
-    const message = new Message({ 
-      userId: new Types.ObjectId(userId),
-      tripId: new Types.ObjectId(tripId), content 
-    });
-
-    await message.save();
-    console.log("Message saved successfully");    
-  } catch (error) {
-    console.error('Error saving message data:', error);
-  } 
-};
-
 const chatSocket = new Elysia().ws("/chat",  {
     async open(ws: any) {
       console.log(
@@ -27,18 +13,17 @@ const chatSocket = new Elysia().ws("/chat",  {
       const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
 
       //Find request by user
-      const request = await Request.findOne({createdBy: new Types.ObjectId(userId),
-          tripId: new Types.ObjectId(ws.data.cookie.tripId)});
+      const request = await ws.data.requestCtrl.getRequestToTripByUserId({userId: userId, tripId: ws.data.cookie.tripId});
       
       //Find if the trip is created by user 
-      const trip = await Trip.findOne({_id: new Types.ObjectId(ws.data.cookie.tripId), 
-        createdBy: new Types.ObjectId(userId)})
-
+      const trip = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
       //If the trip is created by user or is user accepted
       if(request?.status === "Accepted" || trip){
         
-        const users = await Request.find({tripId: new Types.ObjectId(ws.data.cookie.tripId), status: "Accepted"});
-        const messages = await Message.find({tripId: new Types.ObjectId(ws.data.cookie.tripId)});
+        const members = await ws.data.tripCtrl.getTripMembers({tripId: ws.data.cookie.tripId});
+        const owner = await ws.data.tripCtrl.getTripOwner({tripId: ws.data.cookie.tripId});
+        const users = {members, owner}
+        const messages = await ws.data.messageCtrl.getAllMessagesFromTrip({tripId: ws.data.cookie.tripId});
 
         // // Subscribe to pubsub channel to send/receive broadcasted messages,
         // // without this the socket could not send events to other clients
@@ -46,7 +31,7 @@ const chatSocket = new Elysia().ws("/chat",  {
         console.log("connected to chat server");
   
         // // Broadcast that a user joined
-        ws.publish(ws.data.cookie.tripId, JSON.stringify({ type: "USERS_ADD", data: userId }));
+        // ws.publish(ws.data.cookie.tripId, JSON.stringify({ type: "USERS_ADD", data: userId }));
   
         // // Send message to the newly connected client containing existing users and messages
         ws.send(JSON.stringify({ type: "USERS_SET", data: users }));
@@ -62,12 +47,10 @@ const chatSocket = new Elysia().ws("/chat",  {
 
       try{
         //Saving message data, send and publish to subcribers
-        await saveMessageData(userId, ws.data.cookie.tripId, data.text)
+        await ws.data.messageCtrl.addMessage({userId: userId, tripId: ws.data.cookie.tripId, content: data.text})
  
-        Message.findOne({ tripId: new Types.ObjectId(ws.data.cookie.tripId) })
-        .sort({ createdAt: -1 })
-        .exec()
-        .then((latestMessage) => {
+        await ws.data.messageCtrl.getLatestMessagesFromTrip({ tripId: ws.data.cookie.tripId })
+        .then((latestMessage: string) => {
           ws.send(JSON.stringify({ type: "MESSAGES_ADD", data: latestMessage }));
           ws.publish(
             ws.data.cookie.tripId,
@@ -77,7 +60,7 @@ const chatSocket = new Elysia().ws("/chat",  {
             })
           );
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           console.error('Error finding latest document:', err);
         });
       }catch(err){
