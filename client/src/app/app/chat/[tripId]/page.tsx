@@ -2,6 +2,12 @@
 
 import { ChatForm } from "@/views";
 
-export default function ChatRoom({ params }) {
-  return <ChatForm tripId={params.tripId} />;
+interface IProps {
+  params: {
+    tripId: string;
+  }  
+}
+
+export default function ChatRoom({ params }: IProps) {
+  return <ChatForm tripId={params.tripId}/>;
 }
