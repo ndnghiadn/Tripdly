@@ -70,7 +70,7 @@ const NotiWidget = () => {
 
   return (
     <>
-      {current && current.username && (
+      {current && current.email && (
         <Popover>
           <PopoverTrigger asChild>
             <Button

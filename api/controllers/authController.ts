@@ -3,10 +3,10 @@ import { User } from "../models/user.ts";
 export default class AuthController {
   async signUp({ jwt, setCookie, set, body }) {
     try {
-      const user = await User.findOne({ username: body.username });
+      const user = await User.findOne({ email: body.email });
       if (user) {
         set.status = 400;
-        return { message: "Username is unique!" };
+        return { message: "This email address's already used, try another!" };
       }
 
       const encodedPassword = await jwt.sign({ theTruth: body.password });
@@ -25,7 +25,7 @@ export default class AuthController {
       set.status = 200;
       return {
         message: "Created user successfully!",
-        data: others,
+        data: { ...others },
       };
     } catch (error) {
       set.status = 500;
@@ -35,7 +35,7 @@ export default class AuthController {
 
   async signIn({ jwt, setCookie, set, body }) {
     try {
-      const user = await User.findOne({ username: body.username });
+      const user = await User.findOne({ email: body.email });
       if (!user) {
         set.status = 400;
         return { message: "Wrong credentials!" };
@@ -48,11 +48,13 @@ export default class AuthController {
         return { message: "Wrong credentials!" };
       }
 
-      setCookie("auth", await jwt.sign({ userId: user._id }), {
-        httpOnly: true,
-        secure: true,
-        maxAge: 7 * 86400, // expires in 7days
-      });
+      if (body.remember) {
+        setCookie("auth", await jwt.sign({ userId: user._id }), {
+          httpOnly: true,
+          secure: true,
+          maxAge: 7 * 86400, // expires in 7days
+        });
+      }
 
       const { password, ...others } = user._doc;
       set.status = 200;
@@ -62,4 +64,12 @@ export default class AuthController {
       return { message: "Server failed" };
     }
   }
+
+  async signOut({ removeCookie }) {
+    removeCookie("auth");
+  }
+
+  async forgotPw({}) {}
+
+  async resetPw({}) {}
 }

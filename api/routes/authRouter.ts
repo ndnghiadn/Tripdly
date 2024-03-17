@@ -35,5 +35,8 @@ const authRouter = new Elysia()
       },
     }
   )
+  .post("/sign-out", async ({ removeCookie }) => {
+    return await authCtrl.signOut({ removeCookie });
+  });
 
 export default authRouter;
