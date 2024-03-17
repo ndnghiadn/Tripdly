@@ -98,6 +98,12 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
           break;
       }
     });
+
+    newMessageRef.current?.addEventListener("message", (e) => {
+      // Data sent will be a string so parse into an object
+      const event = JSON.parse(e.data);
+      console.log("new message event", e);
+    })
   }, [tripId]);
   return (
     <>

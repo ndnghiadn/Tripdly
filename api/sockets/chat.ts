@@ -6,42 +6,44 @@ import { Types } from 'mongoose';
 
 const chatSocket = new Elysia().ws("/chat",  {
     async open(ws: any) {
-      console.log(
-        "ne nen e",
-        ws.data.cookie
-      );
-      const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
-
-      //Find request by user
-      const request = await ws.data.requestCtrl.getRequestToTripByUserId({userId: userId, tripId: ws.data.cookie.tripId});
       
-      //Find if the trip is created by user 
-      const trip = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
-      //If the trip is created by user or is user accepted
-      if(request?.status === "Accepted" || trip){
-        
-        const members = await ws.data.tripCtrl.getTripMembers({tripId: ws.data.cookie.tripId});
-        const owner = await ws.data.tripCtrl.getTripOwner({tripId: ws.data.cookie.tripId});
-        const users = {members, owner}
-        const messages = await ws.data.messageCtrl.getAllMessagesFromTrip({tripId: ws.data.cookie.tripId});
+      try {
+        const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
 
-        // // Subscribe to pubsub channel to send/receive broadcasted messages,
-        // // without this the socket could not send events to other clients
-        ws.subscribe(ws.data.cookie.tripId);
-        console.log("connected to chat server");
-  
-        // // Broadcast that a user joined
-        // ws.publish(ws.data.cookie.tripId, JSON.stringify({ type: "USERS_ADD", data: userId }));
-  
-        // // Send message to the newly connected client containing existing users and messages
-        ws.send(JSON.stringify({ type: "USERS_SET", data: users }));
-        ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
+        //Find request by user
+        const request = await ws.data.requestCtrl.getRequestToTripByUserId({userId: userId, tripId: ws.data.cookie.tripId});
+        
+        //Find if the trip is created by user 
+        const trip = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
+        //If the trip is created by user or is user accepted
+        if(request?.status === "Accepted" || trip){
+          
+          const members = await ws.data.tripCtrl.getTripMembers({tripId: ws.data.cookie.tripId});
+          const owner = await ws.data.tripCtrl.getTripOwner({tripId: ws.data.cookie.tripId});
+          const users = {members, owner}
+          const messages = await ws.data.messageCtrl.getAllMessagesFromTrip({tripId: ws.data.cookie.tripId});
+
+          // // Subscribe to pubsub channel to send/receive broadcasted messages,
+          // // without this the socket could not send events to other clients
+          ws.subscribe(ws.data.cookie.tripId);
+          console.log("connected to chat server");
+    
+          // // Broadcast that a user joined
+          // ws.publish(ws.data.cookie.tripId, JSON.stringify({ type: "USERS_ADD", data: userId }));
+    
+          // // Send message to the newly connected client containing existing users and messages
+          ws.send(JSON.stringify({ type: "USERS_SET", data: users }));
+          ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
+        }
+        else{
+          console.log("close");
+          ws.close();          
+        }
       }
-      else{
-        console.log("close");
-        ws.close();          
-      }
-    },
+      catch(err){
+        console.error("error", err);
+        ws.close();
+      }},
     async message(ws: any, data: { text: string }) {      
       const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
 

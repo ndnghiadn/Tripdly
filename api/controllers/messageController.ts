@@ -11,6 +11,7 @@ export default class MessageController {
   
       await message.save();
       console.log("Message saved successfully");    
+      return message
     } catch (error) {
       console.error('Error saving message data:', error);
     } 
