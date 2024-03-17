@@ -1,7 +1,7 @@
 // import data from "../fakeData";
 import { useEffect, useState } from "react";
 import TextType from "./MessageItem"
-import { MessageType } from "@/utils/types";
+import { MessageType } from "@/constants/types";
 import axiosClient from "@/lib/axiosClient";
 
 const MessageBox = ({messages, current}) => {

@@ -1,4 +1,4 @@
-import { MessageType } from "../../utils/types";
+import { MessageType } from "../../constants/types";
 import Ava from "./Ava";
 
 const TextType = ({params}:{params:MessageType}) => {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import axiosClient from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/zustand";
-import { User } from "@/utils/types";
+import { User } from "@/constants/types";
 import { toast } from "sonner";
 
 const LoginForm = () => {
