@@ -1,26 +1,23 @@
 import Elysia from "elysia";
-import mongoose, { Types } from "mongoose";
-import { Trip } from "../models/trip";
-import { Request } from "../models/request";
 import { Message } from "../models/message";
+import mongoose from "mongoose";
 
   
 const newMessageSocket = new Elysia().ws("/new-message",  {
-    async open(ws: any) {
-        console.log(
-          "ne nen e",
-          ws.data.cookie
-        );
+    async open(ws: any) {      
+      // try {
+          
         const { userId } = await ws.data.jwt.verify(ws.data.cookie.auth)
   
         //Find request by user
-        const request = await ws.data.requestCtrl.getRequestToTripByUserId({userId: userId, tripId: ws.data.cookie.tripId});
-        
-        //Find if the trip is created by user 
-        const trip = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
+        const allAccessibleTrip = await ws.data.tripCtrl.getAllAccessibleTripId({userId})
+        const allAccessibleTripId = allAccessibleTrip.map(trip => {
+          const keyList = Object.keys(trip)
+            return Object.values(trip[keyList[2]])[0]
+        });
 
         //If the trip is created by user or is user accepted
-        if(request?.status === "Accepted" || trip){
+        if(allAccessibleTripId){
           
             const members = await ws.data.tripCtrl.getTripMembers({tripId: ws.data.cookie.tripId});
             const owner = await ws.data.tripCtrl.getTripOwner({tripId: ws.data.cookie.tripId});
@@ -33,23 +30,20 @@ const newMessageSocket = new Elysia().ws("/new-message",  {
             console.log("connected to new message server");
 
             //Using Change stream to detect new messages
-            const db=mongoose.connection;
-            // db.once('open', async () => {
-            //     console.log('Connected to MongoDB');
-                const changeStream = Message.watch();
+            const pipeline = [{ $match: { "fullDocument.tripId": { $in: allAccessibleTripId} } }]
+            const messageChangeStream = mongoose.connection.collection('messages').watch(pipeline);
+            console.log("allAccessibleTripID",allAccessibleTripId);
+            //Listen for change events
+            messageChangeStream.on('change', (change) => {
+              console.log('change',change);
+                // Send change notification to the connected WebSocket 
+                ws.send(JSON.stringify({data: change}));
+            });
 
-                // Listen for change events
-                changeStream.on('change', (change) => {
-                    console.log('Change detected:', change);
-
-                    // Send change notification to the connected WebSocket client
-                    ws.send(JSON.stringify(change));
-                });
-
-                // Handle error events
-                changeStream.on('error', (err) => {
-                    console.error('Change stream error:', err);
-                });
+            // Handle error events
+            messageChangeStream.on('error', (err) => {
+                console.error('Change stream error:', err);
+            });
 
             // })
         
@@ -64,6 +58,10 @@ const newMessageSocket = new Elysia().ws("/new-message",  {
           console.log("close");
           ws.close();          
         }
+      // } catch (error) {
+      //   console.error(error);
+      //     ws.close();    
+      // }
       },
       message(ws: any, data: { text: string }) {      
         console.log("Connection closed")

@@ -46,4 +46,11 @@ export default class TripController {
       .select("createdBy -_id")
       .populate("createdBy");
   }
+
+  async getAllAccessibleTripId({userId}) {
+    const acceptedRequest = await Request.find({createdBy: new Types.ObjectId(userId), status: "Accepted"})
+      .select("tripId -_id")
+    const tripOwned = await Trip.find({createdBy: new Types.ObjectId(userId)}).select("_id");
+    return [...acceptedRequest,...tripOwned]
+  }
 }
