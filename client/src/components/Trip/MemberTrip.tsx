@@ -1,7 +1,7 @@
 'use client';
 import axiosClient from '@/lib/axiosClient';
 import { useTripStore } from '@/lib/zustand';
-import { Trip } from '@/utils/types';
+import { Trip } from '@/constants/types';
 import { Col, InputNumber, Slider, Button } from 'antd';
 import { useState } from 'react';
 import { toast } from "sonner";
