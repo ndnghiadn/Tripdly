@@ -47,10 +47,10 @@ const UserWidget = () => {
 
   return (
     <>
-      {current && current.username ? (
+      {current && current.email ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">{current?.username}</Button>
+            <Button variant="outline">{current?.email}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
