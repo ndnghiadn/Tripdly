@@ -20,30 +20,29 @@ import axiosClient from "@/lib/axiosClient";
 import { useUserStore } from "@/lib/zustand";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import Image from "next/image"
-import TitleImage from "./TripCardImage"
 import TripCardImage from "./TripCardImage"
+import { Trip } from "@/constants"
+import { FC } from "react"
 
 type Inputs = {
   message: string;
   memberQuantity: number;
 };
+type TTripCard = {
+  key: string,
+  trip: Trip
+}
 
-const TripCard = ({ key, trip }) => {
+const TripCard: FC<TTripCard> = (props) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const { current } = useUserStore();
 
   // handle event
-  // const formatDate = (value: string) => {
-  //   const date = new Date(value)
-  //   return date.toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
-  // }
-  const formatTime = (value: string) => {
+  const formatTime = (value: Date) => {
     const date = new Date(value)
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
@@ -51,7 +50,7 @@ const TripCard = ({ key, trip }) => {
     try {
       const response = await axiosClient.post("/request", {
         ...data,
-        tripId: trip._id,
+        tripId: props.trip._id,
       });
       await handleAddNoti({ data: response.data._id });
     } catch (err) {
@@ -63,7 +62,7 @@ const TripCard = ({ key, trip }) => {
     const socket = new WebSocket("ws:localhost:8888/notification");
     try {
       const response = await axiosClient.post("/noti", {
-        userId: trip.createdBy,
+        userId: props.trip.createdBy?._id,
         type: "request-trip",
         data,
       });
@@ -78,29 +77,22 @@ const TripCard = ({ key, trip }) => {
       console.error(err);
     }
   };
-  return (
-    
-      <Card className="w-3/4">
-         <CardHeader>
-              <Avatar className="w-14 h-14">
-                  <AvatarImage src="https:github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col">
-                  <Label className="text-lg">{trip.createdBy.username}</Label>
-                  <span>{formatTime(trip.createdAt)}</span>
+  return ( 
+      <Card className="w-3/4 bg-[#f4fcf1]">
+         <CardHeader className="flex justify-between">
+              <div>
+                  <Avatar className="w-14 h-14">
+                      <AvatarImage src="https:github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                      <Label className="text-lg">{props.trip.createdBy?.username}</Label>
+                      <span>{formatTime(props.trip.createdAt)}</span>
+                  </div>
               </div>
-         </CardHeader>
-         <CardContent>
-             <CardTitle className="text-2xl">{trip.title}</CardTitle>
-             <CardDescription>{trip.description}</CardDescription>
-              <TripCardImage dataImgs={trip.locations}/>
-         </CardContent>
-         <CardFooter className="flex justify-between">
-             <div className="flex gap-3 items-center">
-                <Popover>
+              <Popover>
                     <PopoverTrigger asChild>
-                    <Button variant={"outline"}>Join</Button>
+                    <Button variant={"outline"}>Join us</Button>
                  </PopoverTrigger>
                  <PopoverContent className="w-80">
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,8 +127,16 @@ const TripCard = ({ key, trip }) => {
                     </div>
                     </form>
                 </PopoverContent>
-                </Popover>
-                 <span>Member limit : {trip.memberLimit}</span>
+              </Popover>
+         </CardHeader>
+         <CardContent>
+             <CardTitle className="text-2xl">{props.trip.title}</CardTitle>
+             <CardDescription>{props.trip.description}</CardDescription>
+              <TripCardImage dataImgs={props.trip.locations}/>
+         </CardContent>
+         <CardFooter className="flex justify-between">
+             <div className="flex gap-3 items-center">
+                 <span>Member limit : {props.trip.memberLimit}</span>
              </div>
          </CardFooter>
          </Card>

@@ -1,33 +1,20 @@
 'use client';
-import axiosClient from '@/lib/axiosClient';
 import { useTripStore } from '@/lib/zustand';
-import { Trip } from '@/constants/types';
-import { Col, InputNumber, Slider, Button } from 'antd';
-import { useState } from 'react';
-import { toast } from "sonner";
+import { Slider, Button } from 'antd';
+import { FC, useState } from 'react';
 
+type TProps = {
+    handleCloseModal: () => void,
+    handlePreStep: () => void
+}
 
-const MemberTrip = ({preStep,closeModal}) => {
+const MemberTrip:FC<TProps> = (props) => {
     const [members,setMembers] = useState(0);
     const setMembersStore = useTripStore((state:any)=>state.setMemberLimitTrip)
     const tripForm = useTripStore((state:any)=>state.tripCreated)
     async function handleCompleteForm(){
         if(members){
-            console.log("trip form : ",tripForm);        
-            const res = await axiosClient.post(
-                "/trip",
-                tripForm,
-                {
-                    withCredentials: true,
-                }
-            )
-            if(res.message === 'Created trip successfully!'){
-                toast.success("Created trip successfully!")
-                closeModal()
-            }
-            else{
-                toast.error("Something go wrong :(")
-            }
+            props.handleCloseModal()    
         }
     }
 
@@ -52,7 +39,7 @@ const MemberTrip = ({preStep,closeModal}) => {
             </div>
             <div className='flex gap-2 mt-6'>
                 <Button onClick={handleCompleteForm}>Finish</Button>
-                <Button onClick={preStep}>Prev</Button>
+                <Button onClick={props.handlePreStep}>Prev</Button>
             </div>
         </div>
      );

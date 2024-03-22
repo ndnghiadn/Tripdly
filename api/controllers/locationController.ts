@@ -52,11 +52,18 @@ export default class LocationController {
     }
   }
   async getAllLocations() {
-    return await Location.find();
+    const locations = await Location.find();
+    return {
+      data: locations,
+      status: 200
+    }
   }
   async findLocation({address}){
     const docLocations = await Location.find({},{name:1,imageUrls:1});
-    return docLocations.filter(curr=>curr.name.toLowerCase().includes(address.toLowerCase()))
+    return {
+      data:docLocations.filter(curr=>curr.name.toLowerCase().includes(address.toLowerCase())),
+      status: 200
+    }
   }
   giveNameToImage(img:File) {
     const nameImg = img.name.split('.')[0]

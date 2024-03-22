@@ -1,14 +1,15 @@
 'use client';
 import { useTripStore } from '@/lib/zustand';
 import { Button } from 'antd';
-import { useState } from 'react';
-import type {Dayjs} from 'dayjs'
+import { FC, useState } from 'react';
 import Calendar from '../ui/calendar';
-const onPanelChange = (value, mode) => {
-  console.log(value.format('YYYY-MM-DD'), mode);
-};
 
-const TimeTrip = ({nextStep,preStep}) => {
+type TProps = {
+    handleNextStep: () => void,
+    handlePreStep: () => void
+  }
+
+const TimeTrip:FC<TProps> = (props) => {
     const [times,setTimes] = useState(
         {
             date: "Moday",
@@ -20,7 +21,7 @@ const TimeTrip = ({nextStep,preStep}) => {
     function handleTimeValue(){
         if(!!times){
             setTimeStore(times)
-            nextStep()
+            props.handleNextStep()
         }
     }
     return ( 
@@ -30,7 +31,7 @@ const TimeTrip = ({nextStep,preStep}) => {
             <Calendar/>
             <div className='flex gap-2 mt-6'>
                 <Button onClick={handleTimeValue}>Next</Button>
-                <Button onClick={preStep}>Prev</Button>
+                <Button onClick={props.handlePreStep}>Prev</Button>
             </div>
         </div>
      );

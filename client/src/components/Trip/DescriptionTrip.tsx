@@ -1,10 +1,15 @@
 'use client';
 import { useTripStore } from '@/lib/zustand';
 import { Input, Button, message } from 'antd';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 const { TextArea } = Input;
 
-const DescriptinTrip = ({ nextStep, preStep }) => {
+type TProps = {
+  handleNextStep: () => void,
+  handlePreStep: () => void
+}
+
+const DescriptinTrip:FC<TProps> = (props) => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
   const setDescriptionStore = useTripStore((state) => state.setDescriptionTrip);// set store
@@ -12,7 +17,7 @@ const DescriptinTrip = ({ nextStep, preStep }) => {
   function handleDescriptionValue() {
     if (!!description) {
       setDescriptionStore(description);
-      nextStep();
+      props.handleNextStep();
     } else {
       setError(true);
     }
@@ -34,12 +39,12 @@ const DescriptinTrip = ({ nextStep, preStep }) => {
         placeholder="Write your description here"
         value={description}
         onChange={handleDescriptionChange}
-        style={{ borderColor: error ? 'red' : null }}
+        style={{ borderColor: error ? 'red' : undefined }}
       />
       {error && <p style={{ color: 'red', marginTop: '5px' }}>Description is required.</p>}
       <div className="flex gap-2 mt-6">
         <Button onClick={handleDescriptionValue}>Next</Button>
-        <Button onClick={preStep}>Prev</Button>
+        <Button onClick={props.handlePreStep}>Prev</Button>
       </div>
     </div>
   );

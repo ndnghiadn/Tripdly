@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AutoComplete, TimePicker, Button, Input } from "antd";
+import { FC, useState } from "react";
+import { AutoComplete, Button } from "antd";
 import { useTripStore } from "@/lib/zustand";
 import axiosClient from "@/lib/axiosClient";
+import { Location, TRequest } from "@/constants";
 
-export interface locationType {
-  name: string;
-  imageUrls: string[];
-}
 export interface validationLocationType {
   isValidationAddress: boolean;
 }
-const LocationTrip = ({ nextStep, preStep }) => {
-  const [locations, setLocations] = useState<locationType[]>([
+
+type TProps = {
+  handleNextStep: () => void,
+  handlePreStep: () => void
+}
+const LocationTrip: FC<TProps> = (props) => {
+  const [locations, setLocations] = useState<Location[]>([
     {
       name: "",
       imageUrls: [],
     },
   ]);
   const [suggests, setSuggests] = useState<{ value: string }[]>([]);
-  const [tempLocation, setTempLocation] = useState<locationType>();
   const [validationLocations, setValidationLocations] = useState<
     validationLocationType[]
   >([
@@ -30,7 +31,6 @@ const LocationTrip = ({ nextStep, preStep }) => {
   ]);
   const setLocationStore = useTripStore((state) => state.setLocationTrip);
   function handleVerifyLocations() {
-    // console.log(locations);
     const validation = isValidationLocations();
     console.log(validation);
 
@@ -41,19 +41,10 @@ const LocationTrip = ({ nextStep, preStep }) => {
     );
     if (validAll) {
       setLocationStore(locations);
-      nextStep();
+      props.handleNextStep();
     }
     return;
   }
-  // function setValidationDefault(){
-  //     const temp = validationLocations.map(curr=>({
-  //         isValidationAddress: true,
-  //         isValidationImg: true
-  //     }))
-  //     setValidationLocations(temp)
-  //     console.log(validationLocations);
-
-  // }
   function isValidationLocations() {
     return locations.map((curr) => {
       let isValidationAddress = false;
@@ -63,23 +54,12 @@ const LocationTrip = ({ nextStep, preStep }) => {
   }
   async function handleChangeLocation(value: string, indexLocation: number) {
     const tempLocation = [...locations];
-    const result: any = await axiosClient(`/locations?address=${value}`, {
+    const result:TRequest<Location[]> = await axiosClient(`/locations?address=${value}`, {
       withCredentials: true,
     });
-    tempLocation[indexLocation] = result[0];
+    tempLocation[indexLocation] = result.data[0];
     setLocations(tempLocation);
-    // const result:any = await axiosClient(`/locations?address=${value}`,{withCredentials:true})
   }
-  // function handleAddLocationImg(e, indexLocationBox:number) {
-  //     const tempLocation = [...locations]
-  //     tempLocation[indexLocationBox].images.push(e.target.files[0]);
-  //     setLocations(tempLocation)
-  // }
-  // function handleRemoveLocationImg(indexLocationBox:number,indeximages:number){
-  //     const tempLocation = [...locations]
-  //     tempLocation[indexLocationBox].images.splice(indeximages,1)
-  //     setLocations(tempLocation)
-  // }
   function handleAddLocationAndValidation() {
     setLocations([...locations, { name: "", imageUrls: [] }]);
     setValidationLocations((validationLocations) => [
@@ -88,11 +68,13 @@ const LocationTrip = ({ nextStep, preStep }) => {
     ]);
   }
   async function handleSuggestLocation(value: string) {
-    let temp: { value: string; imageUrls: string[] }[] = [];
-    const result: any = await axiosClient(`/locations?address=${value}`, {
+    let temp: { value: string; imageUrls?: string[] }[] = [];
+    const result: TRequest<Location[]> = await axiosClient(`/locations?address=${value}`, {
       withCredentials: true,
     });
-    if (result?.length) temp = result.map((curr) => ({ value: curr.name }));
+    console.log("re ",result);
+    
+    if (result.data.length) temp = result.data.map((curr: Location) => ({ value: curr.name }));
     setSuggests(temp);
   }
   return (
@@ -114,7 +96,6 @@ const LocationTrip = ({ nextStep, preStep }) => {
             <div className="location">
               <div className="flex gap-3 items-center mb-1">
                 <h2>Location: </h2>
-                {/* <Input style={{width:"15rem"}} value={curr.address} onChange={(e)=>handleChangeLocation(e.target.value,indexLocation)}/> */}
                 <AutoComplete
                   options={suggests}
                   onSearch={(value) => handleSuggestLocation(value)}
@@ -127,7 +108,7 @@ const LocationTrip = ({ nextStep, preStep }) => {
                     borderColor: !validationLocations[indexLocation]
                       .isValidationAddress
                       ? "red"
-                      : null,
+                      : undefined,
                   }}
                 />
               </div>
@@ -137,12 +118,12 @@ const LocationTrip = ({ nextStep, preStep }) => {
                 </p>
               )}
             </div>
-            <div className="images-box">
+            <div className="imageUrls-box">
               <div className="flex gap-2 items-center mb-1">
                 {curr.imageUrls.length > 0 &&
                   curr.imageUrls.map((ele, indexLocationimages) => (
                     <div
-                      key={indexLocationimages + "images"}
+                      key={indexLocationimages + "imageUrls"}
                       className="relative"
                     >
                       <img
@@ -153,14 +134,9 @@ const LocationTrip = ({ nextStep, preStep }) => {
                         }}
                         src={ele}
                       />
-                      {/* <svg onClick={()=>handleRemoveLocationImg(indexLocation,indexLocationimages)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{position:"absolute", width:"1.5rem",height:"1.5rem",top:"-0.5rem",right:"-0.5rem"}}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg> */}
                     </div>
                   ))}
-                {/* {curr.images.length < 3 && <input type="file" onChange={(e)=>handleAddLocationImg(e,indexLocation)} />} */}
               </div>
-              {/* {!validationLocations[indexLocation].isValidationImg && <p style={{ color: 'red', marginBottom: '10px' }}>Each address need at least a images !!!</p>}       */}
             </div>
           </div>
         ))}
@@ -191,7 +167,7 @@ const LocationTrip = ({ nextStep, preStep }) => {
       </div>
       <div className="flex gap-2 mt-6">
         <Button onClick={handleVerifyLocations}>Next</Button>
-        <Button onClick={preStep}>Prev</Button>
+        <Button onClick={props.handlePreStep}>Prev</Button>
       </div>
     </div>
   );
