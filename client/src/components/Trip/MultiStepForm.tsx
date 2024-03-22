@@ -1,38 +1,42 @@
 'use client';
 
-import { cloneElement, useState } from "react";
+import { FC, cloneElement, useState } from "react";
 import {Button,Modal, Steps} from 'antd'
-import LocationTrip from "./LocationTrip.tsx";
-import NameTrip from "./NameTrip.tsx";
-import TimeTrip from "./TimeTrip.tsx";
-import DescriptinTrip from "./DescriptionTrip.tsx";
-import MemberTrip from "./MemberTrip.tsx";
+import LocationTrip from "./LocationTrip";
+import NameTrip from "./NameTrip";
+import TimeTrip from "./TimeTrip";
+import DescriptionTrip from "./DescriptionTrip";
+import MemberTrip from "./MemberTrip";
 
 const steps = [
     {
         title: "Name trip",
-        component: <NameTrip nextStep={()=>{}} preStep={()=>{}}/>,
+        component: <NameTrip handleNextStep={()=>{}} handlePreStep={()=>{}}/>,
     },
     {
       title: "Description trip",
-      component: <DescriptinTrip nextStep={()=>{}} preStep={()=>{}}/>,
+      component: <DescriptionTrip handleNextStep={()=>{}} handlePreStep={()=>{}}/>,
     },
     {
         title: "Time trip",
-        component: <TimeTrip nextStep={()=>{}} preStep={()=>{}}/>,
+        component: <TimeTrip handleNextStep={()=>{}} handlePreStep={()=>{}}/>,
     },
     {
     title: "Location trip",
-    component: <LocationTrip nextStep={()=>{}} preStep={()=>{}}/>
+    component: <LocationTrip handleNextStep={()=>{}} handlePreStep={()=>{}}/>
     },
     {
       title: "Member trip",
-      component: <MemberTrip preStep={()=>{}}closeModal={()=>{}}/>
+      component: <MemberTrip handlePreStep={()=>{}} handleCloseModal={()=>{}}/>
     }
 ];
+type TProps = {
+  handleFinish: () => void
+}
 
-const MultiStepCreateTrip= () => {
+const MultiStepCreateTrip:FC<TProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [current, setCurrent] = useState(0);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -44,9 +48,15 @@ const MultiStepCreateTrip= () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setCurrent(0)
+    
+  };
+  const handlesSaveTrip = () => {
+    setIsModalOpen(false);
+    props.handleFinish()
+    setCurrent(0)
   };
 
-  const [current, setCurrent] = useState(0);
   const next = () => {
     setCurrent(current + 1);
   };
@@ -68,8 +78,8 @@ const MultiStepCreateTrip= () => {
 
           <Steps current={current} items={items} direction="vertical" className='grow-0 shrink basis-[10rem]'/>
           <div className='flex-1'>
-            { current < steps.length - 1 && cloneElement(steps[current]["component"], { nextStep: next, preStep: prev })}
-            { current === steps.length - 1 && cloneElement(steps[current]["component"], { preStep: prev, closeModal: handleCancel })}
+            { current < steps.length - 1 && cloneElement(steps[current]["component"], { handleNextStep: next, handlePreStep: prev })}
+            { current === steps.length - 1 && cloneElement(steps[current]["component"], { handlePreStep: prev, handleCloseModal: handlesSaveTrip })}
           </div>
         </div>
       </Modal>

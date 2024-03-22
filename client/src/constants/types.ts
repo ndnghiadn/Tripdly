@@ -20,7 +20,7 @@ export type Location = {
   name: string;
   description?: string;
   coordinates?: string;
-  images: [File];
+  imageUrls: string[];
 };
 
 export type TimeTrip = {
@@ -31,8 +31,8 @@ export type TimeTrip = {
 
 export type Trip = {
   _id?: string;
-  createdAt?: Date;
-  createdBy?: User;
+  createdAt: Date;
+  createdBy?: Partial<User>;
   locations: Location[];
   memberCount?: number;
   memberLimit: number;
@@ -75,3 +75,8 @@ export type MessageType = {
   role: string;
   site: string;
 };
+export type TRequest<T=undefined> = {
+  message?: string,
+  data: T,
+  status?: number
+}

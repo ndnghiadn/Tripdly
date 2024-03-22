@@ -6,16 +6,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Location } from "@/constants";
+import { FC } from "react";
 
 export interface ITitleImg {
-    dataImgs : any
+    dataImgs : Location[]
 }
 
-const TripCardImage = (props:ITitleImg) => {
+const TripCardImage:FC<ITitleImg> = (props) => {
     return (
         <Carousel className="w-full h-full">
           <CarouselContent>
-            {props.dataImgs.map((curr, index:string) => (
+            {props.dataImgs.map((curr: Location, index:number) => (
               <CarouselItem key={index}>
                 <div className="flex gap-3 mt-5">
                     <figure className="relative">

@@ -2,15 +2,11 @@
 import "primeicons/primeicons.css";
 import NotiWidget from "../notification/NotiWidget";
 import UserWidget from "../UserWidget";
-
 import { useState } from "react";
-import Link from "next/link";
-import MultiStepCreateTrip from "../Trip/MultiStepForm";
 import { useUserStore } from "@/lib/zustand";
 import { Button } from "../ui/button";
 import Logo from "../Logo";
 function Header() {
-  const [isCreateTrip, setIsCreateTrip] = useState(false);
   const { current } = useUserStore();
   return (
     <>
@@ -20,7 +16,7 @@ function Header() {
             <Logo />
             <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
               {current && current.role === "Guide" ? (
-                <MultiStepCreateTrip />
+                <p>Guide role</p>
               ) : (
                 <Button>Become a Guide</Button>
               )}
