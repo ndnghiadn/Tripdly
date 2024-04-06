@@ -8,15 +8,15 @@ import { log } from "console";
 
 interface MessageToolType{
     inputRef: React.MutableRefObject<null>,
-    handleButtonClick: Promise<void>
+    handleSendMessage: Promise<void>
 }
 
-const MessageTool : React.FC<MessageToolType> = ({inputRef, handleButtonClick}) => {
+const MessageTool : React.FC<MessageToolType> = ({inputRef, handleSendMessage}) => {
     const [visibleEmoji, setVisibleEmoji] = useState(false);
     const handleKeyPress = async (event:any) => {
         // Check if the Enter key is pressed
         if (event.key === 'Enter') {
-            await handleButtonClick();
+            await handleSendMessage();
         }
     };
     
@@ -62,7 +62,7 @@ const MessageTool : React.FC<MessageToolType> = ({inputRef, handleButtonClick}) 
             placeholder="Type a message ..."
           />
           <Button 
-            onClick={()=>{handleButtonClick()}} />
+            onClick={()=>{handleSendMessage()}} />
         </div>
      );
 }
