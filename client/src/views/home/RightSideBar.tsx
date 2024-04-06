@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const RightSideBar = () => {
   return (
-    <div className="hidden md:flex flex-col gap-4 border-l border-gray-200 bg-gray-100 px-4 py-6 dark:border-gray-800 dark:bg-gray-800">
+    <div className="md:flex flex-col gap-4 border-l border-gray-200 bg-gray-100 px-4 py-6 dark:border-gray-800 dark:bg-gray-800">
       <div className="flex items-center gap-4">
         <div className="font-semibold">Who to follow</div>
         <Button>Refresh</Button>
@@ -18,7 +18,7 @@ const RightSideBar = () => {
               src="/placeholder.svg"
               style={{
                 aspectRatio: "56/56",
-                objectFit: "cover",
+                objectFit: "cover"
               }}
               width="56"
             />
@@ -40,7 +40,7 @@ const RightSideBar = () => {
               src="/placeholder.svg"
               style={{
                 aspectRatio: "56/56",
-                objectFit: "cover",
+                objectFit: "cover"
               }}
               width="56"
             />
@@ -62,7 +62,7 @@ const RightSideBar = () => {
               src="/placeholder.svg"
               style={{
                 aspectRatio: "56/56",
-                objectFit: "cover",
+                objectFit: "cover"
               }}
               width="56"
             />
