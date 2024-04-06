@@ -15,6 +15,7 @@
     "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/cors": "^0.7.0",
     "@elysiajs/jwt": "^0.7.0",
+    "@elysiajs/stream": "^1.0.2",
     "@elysiajs/swagger": "^0.7.2",
     "elysia": "^0.7.12",
     "firebase": "^10.8.0",

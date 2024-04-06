@@ -37,22 +37,13 @@ const newMessageSocket = new Elysia().ws("/new-message",  {
             messageChangeStream.on('change', (change) => {
               console.log('change',change);
                 // Send change notification to the connected WebSocket 
-                ws.send(JSON.stringify({data: change}));
+              ws.send(JSON.stringify(change.fullDocument));
             });
 
             // Handle error events
             messageChangeStream.on('error', (err) => {
                 console.error('Change stream error:', err);
             });
-
-            // })
-        
-            // // Broadcast that a user joined
-            //   ws.publish(ws.data.cookie.tripId, JSON.stringify({ type: "USERS_ADD", data: userId }));
-        
-            // // Send message to the newly connected client containing existing users and messages
-            // ws.send(JSON.stringify({ type: "USERS_SET", data: users }));
-            // ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
         }
         else{
           console.log("close");
@@ -62,9 +53,6 @@ const newMessageSocket = new Elysia().ws("/new-message",  {
       //   console.error(error);
       //     ws.close();    
       // }
-      },
-      message(ws: any, data: { text: string }) {      
-        console.log("Connection closed")
       },
       close(ws: any) {
         // users = users.filter((username) => username !== "abc");

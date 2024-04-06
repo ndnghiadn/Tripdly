@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import { Stream } from '@elysiajs/stream'
 import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
 import { cors } from "@elysiajs/cors";

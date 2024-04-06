@@ -14,14 +14,17 @@ const chatSocket = new Elysia().ws("/chat",  {
         const request = await ws.data.requestCtrl.getRequestToTripByUserId({userId: userId, tripId: ws.data.cookie.tripId});
         
         //Find if the trip is created by user 
-        const trip = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
+        const isOwner = await ws.data.tripCtrl.checkIfUserOwnTrip({tripId: ws.data.cookie.tripId, userId: userId})
+
         //If the trip is created by user or is user accepted
-        if(request?.status === "Accepted" || trip){
+        if(request?.status === "Accepted" || isOwner){
           
           const members = await ws.data.tripCtrl.getTripMembers({tripId: ws.data.cookie.tripId});
           const owner = await ws.data.tripCtrl.getTripOwner({tripId: ws.data.cookie.tripId});
           const users = {members, owner}
           const messages = await ws.data.messageCtrl.getAllMessagesFromTrip({tripId: ws.data.cookie.tripId});
+
+          const trip = await ws.data.tripCtrl.getTripByTripId({tripId: ws.data.cookie.tripId})
 
           // // Subscribe to pubsub channel to send/receive broadcasted messages,
           // // without this the socket could not send events to other clients
@@ -34,9 +37,9 @@ const chatSocket = new Elysia().ws("/chat",  {
           // // Send message to the newly connected client containing existing users and messages
           ws.send(JSON.stringify({ type: "USERS_SET", data: users }));
           ws.send(JSON.stringify({ type: "MESSAGES_SET", data: messages }));
+          ws.send(JSON.stringify({ type: "TRIP_SET", data: trip }));
         }
         else{
-          console.log("close");
           ws.close();          
         }
       }
