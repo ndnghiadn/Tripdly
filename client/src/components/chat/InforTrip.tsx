@@ -4,11 +4,12 @@ import {CiLocationOn} from "react-icons/ci"
 import {HiOutlineUserGroup} from "react-icons/hi"
 import {GrFormNext} from 'react-icons/gr'
 import { useState } from "react";
-const InforTrip = ({func}:{func:(isTrip:boolean)=>void}) => {
+const InforTrip = ({func, trip, members}:{func:(isTrip:boolean)=>void, trip: any, members:any}) => {
+    console.log(trip);
     return ( 
         <div className="relative w-full h-full flex sm:text-xs lg:text-base flex-col items-center gap-5 bg-white shadow-lg rounded-xl md:p-2  lg:p-6 xl:p-10">
             <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
-            <p className="text-lg font-semibold text-[#6683C2]">Name trip</p>
+            <p className="text-lg font-semibold text-[#6683C2]">{trip?.title}</p>
             <button title="ok" className="absolute right-4 bottom-3 flex" onClick={()=>func(false)}>
                 <GrFormNext className="w-7 h-7 animate-moving-right"></GrFormNext>
             </button>
@@ -33,14 +34,21 @@ const InforTrip = ({func}:{func:(isTrip:boolean)=>void}) => {
                     <CiLocationOn className="w-6 h-6"/>
                     <div>
                         <h3 className="font-medium   text-[#6683C2]">Visting places</h3>
-                        <p className="  text-[#75def9]">Da Nang - Hue - Ha Noi</p>
+                        
+                        <p className="  text-[#75def9]">
+                        {
+                            trip?.locations.map((location) =>{
+                                    {console.log(location.name)}{location.name}
+                                }
+                            )
+                        }</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3 px-1 py-1 justify-center">
                     <HiOutlineUserGroup className="w-5 h-5"/>
                     <div>
                         <h3 className="font-medium text-[#6683C2]">Members</h3>
-                        <p className="  text-[#75def9]">Current 100 - Limit 200</p>
+                        <p className="  text-[#75def9]">Current {members} - Limit {trip?.memberLimit}</p>
                     </div>
                 </div>
             </div>
