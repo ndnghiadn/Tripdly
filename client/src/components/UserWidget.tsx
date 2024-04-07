@@ -17,7 +17,7 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 const UserWidget = () => {
@@ -84,13 +84,7 @@ const UserWidget = () => {
         //   </p>
         //   <button onClick={handleLogout}>Logout</button>
         // </div>
-        <Button
-          variant={"secondary"}
-          className="rounded-3xl bg-black text-white hover:bg-black"
-          onClick={() => router.push("/login")}
-        >
-          Sign in
-        </Button>
+        <button onClick={() => router.push("/login")}>Login</button>
       )}
     </>
   );

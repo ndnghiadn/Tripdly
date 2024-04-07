@@ -41,6 +41,7 @@ export default function Login({setSignup}) {
     <div className='sm:w-3/4 lg:w-1/3 h-auto bg-white rounded-xl '>
       <p className='flex justify-center mt-5 text-4xl items-center text-cyan-900 font-semibold'>Tripdly</p>
       <p className='text-center p-2 text-sm'>Sign in to continue</p>
+      {JSON.stringify(UserInfo)}
       <form className='flex flex-col justify-center'>
         <input type='text' className='p-2 border-2 mt-2 mb-2 ml-5 mr-5 shadow-sm rounded-xl' placeholder='Username' onChange={(e)=>setUsername(e.target.value)} ></input>
         <input type='password' className='p-2 border-2 mt-2 mb-2 ml-5 mr-5 rounded-xl' placeholder='Password' onChange={(e)=>setPassword(e.target.value)} ></input>
