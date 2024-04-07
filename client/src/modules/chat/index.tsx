@@ -13,10 +13,13 @@ import Header from "@/components/header/header";
 export const ChatForm: React.FC<String> = ({ tripId }) => {
   const { current } = useUserStore();
 
+
   const socketRef = useRef(null);
   const newMessageRef = useRef(null);
 
   const isLogin = true;
+  const [isTrip, setisTrip] = useState(true);
+  const dummy = useRef<HTMLDivElement>(null);
   const [isTrip, setisTrip] = useState(true);
   const dummy = useRef<HTMLDivElement>(null);
 
@@ -46,9 +49,11 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
         })
       );
       inputRef.current.value = "";
+      inputRef.current.value = "";
     } catch (error) {
       console.error(error);
     }
+  };
   };
 
   const addMessage = (message) => {
@@ -69,10 +74,12 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
     if (!socketRef.current) {
       //Start a connection to chat server
       socketRef.current = new WebSocket("ws://localhost:8888/chat");
+      socketRef.current = new WebSocket("ws://localhost:8888/chat");
     }
 
     if (!newMessageRef.current) {
       //Start a connection to new message server
+      newMessageRef.current = new WebSocket("ws://localhost:8888/new-message");
       newMessageRef.current = new WebSocket("ws://localhost:8888/new-message");
     }
 
@@ -127,6 +134,7 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
           {current._id ? (
             <div className="bg-[#F6F8FA] h-full w-full sm:w-4/5 sm:mr-3 flex flex-col rounded-xl">
               <div className="flex-grow-0">
+                <MessageHeader />
                 <MessageHeader />
               </div>
               <div className="flex-1 overflow-auto no-scrollbar" ref={dummy}>

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import type { Noti } from "@/constants/types";
+import type { Noti } from "@/constants/common/";
 
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import RequestNotiItem from "./RequestItem";
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
 
 const RequestList = ({ notiList }) => {
   const [requestList, setRequestList] = useState([]);

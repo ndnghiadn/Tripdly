@@ -1,4 +1,4 @@
-import { ProfileView } from "@/views";
+import { ProfileView } from "@/modules";
 
 interface params{
   params: {

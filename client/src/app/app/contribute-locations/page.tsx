@@ -1,4 +1,4 @@
-import { ContributeLocation } from "@/views";
+import { ContributeLocation } from "@/modules";
 const ContributeLocationPage = () => {
   return <ContributeLocation />;
 };

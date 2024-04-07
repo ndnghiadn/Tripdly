@@ -1,4 +1,4 @@
-import { User, TimeTrip, Location } from "@/constants/types";
+import { User, TimeTrip, Location } from "@/types";
 import { create } from "zustand";
 
 export const useUserStore = create((set) => ({

@@ -1,6 +1,6 @@
 "use client";
 import { useUserStore } from "@/lib/zustand";
-import { Noti, Request } from "@/constants/types";
+import { Noti, Request } from "@/constants/common/";
 import { useEffect, useState } from "react";
 import RequestList from "./RequestList";
 import { toast } from "sonner";

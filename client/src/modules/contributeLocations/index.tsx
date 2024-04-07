@@ -1,5 +1,5 @@
 "use client";
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
 import { useUserStore } from "@/lib/zustand";
 import { Button, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";

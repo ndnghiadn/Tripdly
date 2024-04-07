@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
+import RightSideBar from "./RightSideBar";
 import TripCard from "@/components/Trip/TripCard";
 import MultiStepCreateTrip from "@/components/Trip/MultiStepForm";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import { GoSearch } from "react-icons/go";
 
 const MainContent = () => {
   const [trip, setTrip] = useState<Trip[]>([]);
+  const tripCreated = useTripStore((state) => state.tripCreated);
   const tripCreated = useTripStore((state) => state.tripCreated);
 
   // function

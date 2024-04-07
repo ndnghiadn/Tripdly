@@ -1,4 +1,5 @@
 import Header from "@/components/header/header";
+import LeftSideBar from "@/modules/home/LeftSideBar";
 
 const AppLayout = ({ children }) => {
   return (

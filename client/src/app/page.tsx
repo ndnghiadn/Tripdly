@@ -1,6 +1,6 @@
-import Header from "@/views/landingPage/Header";
-import Footer from "@/views/landingPage/Footer";
-import Content from "@/views/landingPage/Content";
+import Header from "@/modules/LandingPage/Header";
+import Footer from "@/modules/LandingPage/Footer";
+import Content from "@/modules/LandingPage/Content";
 
 export default function Home() {
   return (

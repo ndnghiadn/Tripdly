@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import { AutoComplete, Button } from "antd";
 import { useTripStore } from "@/lib/zustand";
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
 import { Location, TRequest } from "@/constants";
 
 export interface validationLocationType {
@@ -11,9 +11,9 @@ export interface validationLocationType {
 }
 
 type TProps = {
-  handleNextStep: () => void,
-  handlePreStep: () => void
-}
+  handleNextStep: () => void;
+  handlePreStep: () => void;
+};
 const LocationTrip: FC<TProps> = (props) => {
   const [locations, setLocations] = useState<Location[]>([
     {
@@ -54,9 +54,12 @@ const LocationTrip: FC<TProps> = (props) => {
   }
   async function handleChangeLocation(value: string, indexLocation: number) {
     const tempLocation = [...locations];
-    const result:TRequest<Location[]> = await axiosClient(`/locations?address=${value}`, {
-      withCredentials: true,
-    });
+    const result: TRequest<Location[]> = await axiosClient(
+      `/locations?address=${value}`,
+      {
+        withCredentials: true,
+      }
+    );
     tempLocation[indexLocation] = result.data[0];
     setLocations(tempLocation);
   }
@@ -69,12 +72,16 @@ const LocationTrip: FC<TProps> = (props) => {
   }
   async function handleSuggestLocation(value: string) {
     let temp: { value: string; imageUrls?: string[] }[] = [];
-    const result: TRequest<Location[]> = await axiosClient(`/locations?address=${value}`, {
-      withCredentials: true,
-    });
-    console.log("re ",result);
-    
-    if (result.data.length) temp = result.data.map((curr: Location) => ({ value: curr.name }));
+    const result: TRequest<Location[]> = await axiosClient(
+      `/locations?address=${value}`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log("re ", result);
+
+    if (result.data.length)
+      temp = result.data.map((curr: Location) => ({ value: curr.name }));
     setSuggests(temp);
   }
   return (

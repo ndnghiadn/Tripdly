@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/zustand";
-import { User } from "@/constants/types";
+import { User } from "@/constants/common/";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";

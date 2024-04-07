@@ -77,3 +77,4 @@ const TextType = ({ params }: { params: MessageType }) => {
 };
 
 export default TextType;
+

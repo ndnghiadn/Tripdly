@@ -1,4 +1,4 @@
-import MainContent from "@/views/home/MainContent";
+import MainContent from "@/modules/home/MainContent";
 
 const AppPage = () => {
   return <MainContent />;

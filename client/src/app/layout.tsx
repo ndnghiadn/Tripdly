@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { cn } from "@/utils/shadcn";
+import "../styles/globals.css";
+import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
-import { mainColors } from "@/constants";
+import { mainColors } from "@/lib/constants";
 
 export const fontSans = FontSans({
   subsets: ["latin"],

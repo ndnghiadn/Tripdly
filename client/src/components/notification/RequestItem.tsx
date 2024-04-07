@@ -1,6 +1,6 @@
 "use client";
 
-import axiosClient from "@/lib/axiosClient";
+import axiosClient from "@/api/axiosClient";
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
