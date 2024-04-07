@@ -1,4 +1,4 @@
-import ResetForm from "@/components/auth/ResetPwForm";
+import ResetForm from "@/components/forms/ResetPwForm";
 
 export default function ResetPage() {
   return <ResetForm />;

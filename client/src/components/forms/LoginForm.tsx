@@ -5,7 +5,7 @@ import Image from "next/image";
 import axiosClient from "@/api/axiosClient";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/lib/zustand";
-import { User } from "@/constants/common/";
+import { User } from "@/types";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";

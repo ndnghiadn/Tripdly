@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import type { Noti } from "@/constants/common/";
+import type { Noti } from "@/types";
 
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import RequestNotiItem from "./RequestItem";

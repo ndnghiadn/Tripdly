@@ -1,4 +1,4 @@
-import { MessageType } from "../../constants/types";
+import { MessageType } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const TextType = ({ params }: { params: MessageType }) => {
