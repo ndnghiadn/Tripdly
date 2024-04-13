@@ -2,28 +2,77 @@
 import "primeicons/primeicons.css";
 import NotiWidget from "../notification/NotiWidget";
 import UserWidget from "../UserWidget";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "@/lib/zustand";
 import { Button } from "../ui/button";
 import Logo from "../Logo";
+import Link from "next/link";
 function Header() {
   const { current } = useUserStore();
+  const [isScroll, setIsScroll] = useState(false);
+  const cssOfNavBar =
+    "px-[361px] py-[16px] flex justify-between sticky top-0 z-10 bg-white";
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 0) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
-      <nav className="sticky top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <Logo />
-            <div className="flex space-x-4 text-cyan-900 mix-blend-difference">
-              {current && current.role === "Guide" ? (
-                <p>Guide role</p>
-              ) : (
-                <Button>Become a Guide</Button>
-              )}
-              <NotiWidget />
-              <UserWidget />
-            </div>
-          </div>
+      <nav
+        className={
+          isScroll
+            ? "border-solid border-b-[1px] border-red-800 " + cssOfNavBar
+            : cssOfNavBar
+        }
+      >
+        <Logo />
+        <div className="navigation flex justify-between gap-4 font-bold">
+          <Button
+            variant={"outline"}
+            className="rounded-full border-none shadow-none py-[10px] px-[16px] hover:bg-slate-200"
+          >
+            <Link className="text-base" href={"/app"}>
+              Discover
+            </Link>
+          </Button>
+          {current && current.role === "Guide" ? (
+            <Button
+              variant={"outline"}
+              className="rounded-full border-none shadow-none py-[10px] px-[16px] hover:bg-slate-200"
+            >
+              <Link className="text-base" href={"/app/contribute-locations"}>
+                Trips
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              variant={"outline"}
+              className="rounded-full border-none shadow-none py-[10px] px-[16px] hover:bg-slate-200"
+            >
+              Become a Guide
+            </Button>
+          )}
+          <Button
+            variant={"outline"}
+            className="rounded-full border-none shadow-none py-[10px] px-[16px] hover:bg-slate-200"
+          >
+            <Link className="text-base" href={"/app"}>
+              Review
+            </Link>
+          </Button>
+        </div>
+        <div className="flex gap-3">
+          <UserWidget />
+          <NotiWidget />
         </div>
       </nav>
     </>

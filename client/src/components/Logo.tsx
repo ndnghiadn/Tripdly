@@ -4,11 +4,11 @@ import React from "react";
 function Logo() {
   return (
     <Link
-      className="flex items-center justify-center transition-transform transform hover:scale-105"
+      className="flex items-center justify-center text-2xl transition-transform transform hover:scale-105"
       href="#"
     >
       <MountainIcon className="h-6 w-6" />
-      <span className="sr-only">Tripdly</span>
+      <span className=" text-black">Tripdly</span>
     </Link>
   );
 }

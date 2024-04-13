@@ -77,68 +77,72 @@ const TripCard: FC<TTripCard> = (props) => {
       console.error(err);
     }
   };
+  const truncate = (str: string) => {
+    return str.length > 250 ? str.substring(0, 247) + "..." : str;
+  };
   return (
-    <Card className="w-full bg-[#f4fcf1]">
-      <CardHeader className="flex justify-between">
-        <div>
-          <Avatar className="w-14 h-14">
-            <AvatarImage src="https:github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <Label className="text-lg">{props.trip.createdBy?.username}</Label>
-            <span>{formatTime(props.trip.createdAt)}</span>
+    <Card className="w-full bg-[#DADDC5]">
+      <CardContent className="py-[60px] px-[100px] flex gap-9">
+        <div className="grow-0 max-w-[300px]">
+          <CardTitle className="text-xl text-start mb-3 text-[#283A2C]">
+            {props.trip.title}
+          </CardTitle>
+          <CardDescription className="text-[#283A2C]">
+            {truncate(props.trip.description)}
+          </CardDescription>
+          <div className="flex gap-4 mt-3 mb-6">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src="https:github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <Label className="text-lg">
+                {props.trip.createdBy?.username}
+              </Label>
+              <span>{formatTime(props.trip.createdAt)}</span>
+            </div>
           </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={"outline"}>Join us</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none"></h4>
+                    <p className="text-sm text-muted-foreground">
+                      Send a request to the trip's owner
+                    </p>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="message">Message</Label>
+                      <Input
+                        id="message"
+                        defaultValue="Hello there,..."
+                        className="col-span-2 h-8"
+                        {...register("message", { required: true })}
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="memberQuantity">Member Quantity</Label>
+                      <Input
+                        id="memberQuantity"
+                        defaultValue="5"
+                        className="col-span-2 h-8"
+                        {...register("memberQuantity", { required: true })}
+                      />
+                    </div>
+                    <Button type="submit">Send</Button>
+                  </div>
+                </div>
+              </form>
+            </PopoverContent>
+          </Popover>
         </div>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant={"outline"}>Join us</Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium leading-none"></h4>
-                  <p className="text-sm text-muted-foreground">
-                    Send a request to the trip's owner
-                  </p>
-                </div>
-                <div className="grid gap-2">
-                  <div className="grid grid-cols-3 items-center gap-4">
-                    <Label htmlFor="message">Message</Label>
-                    <Input
-                      id="message"
-                      defaultValue="Hello there,..."
-                      className="col-span-2 h-8"
-                      {...register("message", { required: true })}
-                    />
-                  </div>
-                  <div className="grid grid-cols-3 items-center gap-4">
-                    <Label htmlFor="memberQuantity">Member Quantity</Label>
-                    <Input
-                      id="memberQuantity"
-                      defaultValue="5"
-                      className="col-span-2 h-8"
-                      {...register("memberQuantity", { required: true })}
-                    />
-                  </div>
-                  <Button type="submit">Send</Button>
-                </div>
-              </div>
-            </form>
-          </PopoverContent>
-        </Popover>
-      </CardHeader>
-      <CardContent>
-        <CardTitle className="text-2xl">{props.trip.title}</CardTitle>
-        <CardDescription>{props.trip.description}</CardDescription>
         <TripCardImage dataImgs={props.trip.locations} />
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <div className="flex gap-3 items-center">
-          <span>Member limit : {props.trip.memberLimit}</span>
-        </div>
-      </CardFooter>
     </Card>
   );
 };
