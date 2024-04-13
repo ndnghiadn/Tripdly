@@ -1,6 +1,6 @@
 "use client";
 
-import { ChatForm } from "@/views";
+import { ChatForm } from "@/modules";
 
 interface IProps {
   params: {

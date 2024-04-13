@@ -20,8 +20,6 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
   const isLogin = true;
   const [isTrip, setisTrip] = useState(true);
   const dummy = useRef<HTMLDivElement>(null);
-  const [isTrip, setisTrip] = useState(true);
-  const dummy = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
@@ -49,11 +47,9 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
         })
       );
       inputRef.current.value = "";
-      inputRef.current.value = "";
     } catch (error) {
       console.error(error);
     }
-  };
   };
 
   const addMessage = (message) => {
@@ -74,12 +70,10 @@ export const ChatForm: React.FC<String> = ({ tripId }) => {
     if (!socketRef.current) {
       //Start a connection to chat server
       socketRef.current = new WebSocket("ws://localhost:8888/chat");
-      socketRef.current = new WebSocket("ws://localhost:8888/chat");
     }
 
     if (!newMessageRef.current) {
       //Start a connection to new message server
-      newMessageRef.current = new WebSocket("ws://localhost:8888/new-message");
       newMessageRef.current = new WebSocket("ws://localhost:8888/new-message");
     }
 

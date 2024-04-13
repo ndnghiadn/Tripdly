@@ -14,7 +14,6 @@ import { GoSearch } from "react-icons/go";
 const MainContent = () => {
   const [trip, setTrip] = useState<Trip[]>([]);
   const tripCreated = useTripStore((state) => state.tripCreated);
-  const tripCreated = useTripStore((state) => state.tripCreated);
 
   // function
   const addTripToFeed = async () => {
